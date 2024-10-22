@@ -38,23 +38,5 @@ public class StoreController {
 		return "index";
 	}
 
-	 @GetMapping("/api/getStoreCoords")
-	    public ResponseEntity<?> getStoreCoords(@RequestParam String sitewhladdr) {
-	        StoreVO store = storeService.getStoreByAddress(sitewhladdr); // 주소로 좌표 검색
-
-	        if (store != null) {
-	            return ResponseEntity.ok(store); // 좌표를 포함한 데이터를 반환
-	        } else {
-	            return ResponseEntity.status(404).body("Store not found");
-	        }
-	    }
-
-	
-	 @GetMapping("/api/searchShop/{keyword}")
-	 @ResponseBody
-	    public ResponseEntity<List<HashMap<String, Object>>> searchShopByKeyword(@PathVariable String keyword) {
-	        List<HashMap<String, Object>> shops = storeService.getShopsByKeyword(keyword);
-	        return ResponseEntity.ok(shops);
-	    }
 
 }

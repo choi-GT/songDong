@@ -103,7 +103,7 @@
         //   return false;
         // }
 		
-		fetch(`/api/searchShop/${keyword}`).then(json => json.json())
+		fetch(`/api/searchShop?keyword=${keyword}`).then(json => json.json())
 				.then(res => {
 					console.log(res)
 					const dataList = new Array();

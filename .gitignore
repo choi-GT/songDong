@@ -2,3 +2,5 @@
 /src/test/
 target/
 src/test/
+.class
+.properties
