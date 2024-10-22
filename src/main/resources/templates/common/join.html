@@ -100,9 +100,9 @@
       <div class="personal">
         <input
           type="text"
-          name="pName"
-          class="pName"
-          id="pName"
+          name="username"
+          class="username"
+          id="username"
           placeholder="이름을 입력하세요."
           onkeyup="noSpace(this), noCharAndNum(this)"
           required
@@ -142,18 +142,18 @@
       <div class="idPw">
         <input
           type="text"
-          name="newId"
-          class="newId"
-          id="newId"
+          name="userID"
+          class="userID"
+          id="userID"
           placeholder="아이디를 입력하세요."
           onkeyup="noSpace(this)"
           required
         />
         <input
           type="password"
-          name="newPw"
-          class="newPw"
-          id="newPw"
+          name="password"
+          class="password"
+          id="password"
           placeholder="비밀번호를 입력하세요."
           autocomplete="off"
           onkeyup="noSpace(this)"
@@ -161,9 +161,9 @@
         />
         <input
           type="password"
-          name="newPw2"
-          class="newPw2"
-          id="newPw2"
+          name="password2"
+          class="password2"
+          id="password2"
           placeholder="비밀번호 확인"
           autocomplete="off"
           onkeyup="noSpace(this)"
@@ -189,9 +189,9 @@
       const rightNumber = document.querySelector(".rightNumber");
       const rightEmail = document.querySelector(".rightEmail");
 
-      const newId = document.querySelector("#newId");
-      const newPw = document.querySelector("#newPw");
-      const newPw2 = document.querySelector("#newPw2");
+      const newId = document.querySelector("#userID");
+      const newPw = document.querySelector("#password");
+      const newPw2 = document.querySelector("#password2");
       
       const idEnough = document.querySelector(".idEnough");
       const pwEnough = document.querySelector(".pwEnough");
@@ -361,6 +361,58 @@
           return;
         }
       }
+	  
+	  const btnJoin = document.querySelector('#join');
+  		btnJoin.addEventListener('click', function(e) {
+  			const username = document.querySelector('#username').value?.trim();
+  			const password = document.querySelector('#password').value?.trim();
+  			const password2 = document.querySelector('#password2').value?.trim();
+  			
+  			if (username.length < 2) {
+  				document.querySelector('#username').focus();
+  				return;
+  			}
+  			if (password.length < 6) {
+  				document.querySelector('#password').focus();
+  				return;
+  			}
+  			if (password != password2) {
+  				document.querySelector('#password').focus();
+  				return;
+  			}
+  			if (password.length >= 6 && password2.length >= 6
+  				&& password === password2 && idCheck && idDup
+  				&& emailCheck && emailDup) {
+  				alert('가입처리 완료');
+  			const data = {
+  				method: 'post',
+  				headers: {
+  					'Content-Type': 'application/json'
+  				},
+  				body: JSON.stringify({
+  					userID: document.querySelector('#userID').value?.trim(),
+  					password: document.querySelector('#password').value?.trim(),
+  					password2: document.querySelector('#password2').value?.trim(),
+  					email: document.querySelector('#email').value.trim(),
+  					username: document.querySelector('#username').value.trim()
+  				}),
+  			}
+  			
+  			fetch('/member/joinProc2', data)
+  				.then((response) => response.json())
+  				.then((data) => {
+  					console.log(data);
+  					const {result, message} = data;
+  					alert(message);
+  					if (result) {
+  						window.location.href = '/member/login';
+  					}
+  				});
+  			} else {
+  				alert('회원가입 양식을 확인하세요.');
+  				return;
+  			}
+  		});
     </script>
   </body>
 </html>

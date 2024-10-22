@@ -22,7 +22,7 @@
 
       </div>
       <ul class="navbar__menu">
-        <li><a href="#">즐겨찾기</a></li>
+        <li><a href="/member/findOften">즐겨찾기</a></li>
         <li><a href="#">검색 히스토리</a></li>
       </ul>
       <div class="dropdown">
@@ -31,7 +31,7 @@
         </button>
         <div class="dropdown-content">
           <a href="/member/login">로그인</a>
-          <a href="#">마이페이지</a>
+          <a href="/member/myPage">마이페이지</a>
           <a href="#">회원가입</a>
         </div>
     </nav>
@@ -103,7 +103,7 @@
         //   return false;
         // }
 		
-		fetch(`/api/searchShop/${keyword}`).then(json => json.json())
+		fetch(`/api/searchShop?keyword=${keyword}`).then(json => json.json())
 				.then(res => {
 					console.log(res)
 					const dataList = new Array();

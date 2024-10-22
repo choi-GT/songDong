@@ -1,11 +1,8 @@
 package com.example.demo.commonController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.payload.request.JoinRequest;
 import com.example.demo.service.StoreService2;
 import com.example.demo.service.impl.MemberService;
 import com.example.demo.vo.MemberShipVO;
@@ -51,7 +49,7 @@ public class CommonController {
     
     
     // 로그인 페이지
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public ModelAndView login(
             @RequestParam(value = "userID", required = false, defaultValue = "") String userID,
             @RequestParam(value = "password", required = false, defaultValue = "") String password) {
@@ -81,6 +79,19 @@ public class CommonController {
     }
     
     /**
+     * 로그아웃
+     * @param request
+     * @return
+     */
+    @GetMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		// 세션 삭제
+		session.invalidate();
+		return "redirect:/";
+	}
+    
+    /**
 	 * 회원가입 양식
 	 * @return
 	 */
@@ -98,6 +109,21 @@ public class CommonController {
 	@PostMapping("/joinProc")
 	public void joinProc(@ModelAttribute MemberShipVO memberShipVO) {
 		memberService.insert(memberShipVO);
+	}
+	
+	/**
+	 * 회원가입 비동기 처리
+	 * @param joinRequest
+	 * @RequestBody 어노테이션이 있어야 post형식의 데이터를 받을 수 있다
+	 * @return
+	 */
+	@PostMapping("/joinProc2")
+	@ResponseBody
+	public ResponseEntity<?> joinProc2(@RequestBody JoinRequest joinRequest) {
+		log.info(joinRequest.toString());
+		// HashMap<String, Object> result = memberService.memberJoin(joinRequest);
+		// return ResponseEntity.ok(result);
+		return ResponseEntity.ok(memberService.memberJoin(joinRequest));
 	}
 
     @GetMapping("/myPage")

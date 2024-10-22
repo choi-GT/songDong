@@ -82,11 +82,11 @@
   <body>
     <form class="findPwForm">
       <h2>비밀번호 찾기</h2>
-      <label for="id"> 아이디 </label>
+      <label for="userID"> 아이디 </label>
       <input
         type="text"
-        name="id"
-        id="id"
+        name="userID"
+        id="userID"
         placeholder="아이디를 입력하세요."
         required
       />
@@ -108,7 +108,7 @@
 	<script>
 		document.querySelector('#findPwForm').addEventListener('submit', function(e){
 			e.preventDefault();
-			const userID = document.querySelector('#id').value?.trim();
+			const userID = document.querySelector('#userID').value?.trim();
 			const email = document.querySelector('#email').value?.trim();
 			
 			const data = {

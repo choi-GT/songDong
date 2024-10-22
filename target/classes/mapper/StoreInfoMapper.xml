@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.StoreInfoMapper">
 
+<select id="selectShopByShopName" parameterType="String" resultType="java.util.HashMap">
+SELECT
+	NVL(si.RDNWHLADDR, si.SITEWHLADDR) AS address,
+	si.BPLCNM as shopName, MGTNO
+FROM STORE_INFO si
+	WHERE (si.SITEWHLADDR LIKE '%' || #{keyword} || '%'
+		OR si.RDNWHLADDR LIKE '%' || #{keyword} || '%'
+		OR si.bplcnm LIKE '%' || #{keyword} || '%')
+		AND TRDSTATENM &lt;&gt; '폐업'
+</select>
+
     <insert id="insertItems" parameterType="java.util.HashMap">
 
         INSERT INTO STORE_INFO (lastmodts, dtlstatenm, totepnum, wmeipcnt

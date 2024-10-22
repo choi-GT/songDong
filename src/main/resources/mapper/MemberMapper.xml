@@ -40,29 +40,29 @@
 				AND password = STANDARD_HASH(#{password}, 'SHA256')
 				AND ISUSE = 1
 				AND DROPDATE IS NULL
-</select>
-
-<select id="checkUserID" parameterType="String" resultType="int">
-	SELECT COUNT(*) AS CNT
-	FROM MEMBERSHIP
-	WHERE userID = #{userID} 
-</select>
-
-<select id="checkEmail" parameterType="String" resultType="int">
-	SELECT COUNT(*) AS CUT
-	FROM MEMBERSHIP
-	WHERE EMAIL = #{email}
-		AND ISUSE = 1
-</select>
-
-<update id="memberDrop" parameterType="com.example.demo.vo.MemberShipVO">
-    UPDATE MEMBERSHIP SET 
-        ISUSE = 0,
-        DROPDATE = SYSDATE
-    WHERE 
-        userID = #{userID} 
-        AND password = STANDARD_HASH(#{password}, 'SHA256')
-</update>
+	</select>
+	
+	<select id="checkUserID" parameterType="String" resultType="int">
+		SELECT COUNT(*) AS CNT
+		FROM MEMBERSHIP
+		WHERE userID = #{userID} 
+	</select>
+	
+	<select id="checkEmail" parameterType="String" resultType="int">
+		SELECT COUNT(*) AS CUT
+		FROM MEMBERSHIP
+		WHERE EMAIL = #{email}
+			AND ISUSE = 1
+	</select>
+	
+	<update id="memberDrop" parameterType="com.example.demo.vo.MemberShipVO">
+	    UPDATE MEMBERSHIP SET 
+	        ISUSE = 0,
+	        DROPDATE = SYSDATE
+	    WHERE 
+	        userID = #{userID} 
+	        AND password = STANDARD_HASH(#{password}, 'SHA256')
+	</update>
 
 
 
