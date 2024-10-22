@@ -48,10 +48,7 @@ public class StoreController {
 	            return ResponseEntity.status(404).body("Store not found");
 	        }
 	    }
-	 @GetMapping("/a")
-	 public String main() {
-		 return "index";
-	 }
+
 	
 	 @GetMapping("/api/searchShop/{keyword}")
 	 @ResponseBody
