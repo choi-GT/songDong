@@ -233,5 +233,13 @@ public class CommonController {
         return mav;
     }
     
+    @GetMapping("/favoriteList")
+    public ModelAndView favoriteList() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("common/favoriteList");
+        mav.addObject("title", "즐겨찾기 리스트");
+        return mav;
+    }
+    
 
 }
