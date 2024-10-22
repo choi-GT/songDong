@@ -35,7 +35,7 @@
 			, REGDATE
 			, ISUSE
 			, DROPDATE 
-		FROM MEMBERSHIP
+		FROM SEMI.MEMBERSHIP
 			WHERE userID = #{userID} 
 				AND password = STANDARD_HASH(#{password}, 'SHA256')
 				AND ISUSE = 1
