@@ -80,29 +80,35 @@
     </style>
   </head>
   <body>
-    <form class="findIDForm">
+    <form class="findIdForm">
       <h2>아이디 찾기</h2>
-      <label for="username"> 이름 </label>
-      <input
-        type="text"
-        name="username"
-        id="username"
-        placeholder="이름을 입력하세요."
-        required
-      />
       <label for="email"> 이메일 </label>
       <input
         type="text"
         name="email"
         id="email"
         placeholder="등록한 이메일을 입력하세요."
+		autocomplete="off"
         required
       />
       <button id="findID" type="submit">아이디 찾기</button>
-      <a href="/project_Login.html" id="login">로그인</a>
+      <a href="/member/login" id="login">로그인</a>
       <div class="lostFound">
-        <a href="/project_FindPW.html">비밀번호 찾기</a>
+        <a href="/member/findPW">비밀번호 찾기</a>
       </div>
     </form>
+	<script>
+		document.querySelector('#findIdForm').addEventListener('submit', function(e) {
+			e.preventDefault();
+			const email = document.querySelector('#email').value?.trim();
+			fetch('/member/findID/' + email)
+				.then((res) => res.json())
+				.then((data) => {
+					console.log(data);
+					const {result, message} = data;
+					alert(message);
+				});
+		});
+	</script>
   </body>
 </html>

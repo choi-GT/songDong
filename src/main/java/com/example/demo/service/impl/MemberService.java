@@ -125,14 +125,8 @@ public class MemberService implements CrudService<MemberShipVO> {
 		}
 		// 3. 비밀번호
 		String pw = joinRequest.getPassword();
-		// 4. 사용자 이름 있는지 체크(4자 이상)
+		// 4. 사용자 이름
 		String username = joinRequest.getUsername();
-		
-		if (username.length() < 2) {
-			map.put("result", false);
-			map.put("message", "이름을 두 글자 이상 입력하세요");
-			return map;
-		}
 		
 		MemberShipVO memberShipVO = MemberShipVO.builder()
 				.email(joinRequest.getEmail())
@@ -187,7 +181,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 		// 완료 메시지에 비밀번호를 넣어서 리턴
 		map.put("result", true);
-		map.put("message", "임시 비밀번호는 " + randomPw + "입니다.");
+		map.put("message", "임시 비밀번호는 " + randomPw + "입니다. \n로그인 후 비밀번호를 변경해주세요.");
 		
 		return map;
 	}
