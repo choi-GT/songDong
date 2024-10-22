@@ -2,8 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 <!-- ModelAndView에서 저장한 데이터 호출 -->
-<title>${title}</title>
+<title th:text="${title}"></title>
 <style>
 	* {
 	    margin: 0;
@@ -11,7 +12,7 @@
 	    box-sizing: border-box;
 	  }
 	  #container {
-         background-color: #8ee9bb;
+         background-color: #fff;
          background-size: cover;
          position: absolute;
          top: 0;
@@ -20,42 +21,48 @@
          bottom: 0;
        }
    form {
-		width: 350px;
+		width: 500px;
 		border-radius: 10px;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.1);
         margin-left: auto;
         margin-right: auto;
         margin-top: 50px;
         padding: 30px;
     }
 	form h2 {
-	    color: #fff;
+	    color: black;
     	text-align: center;
+		padding-bottom: 20px;
 	}
 	form input {
 		display: black;
 		width: 100%;
 	}
 	form label{
-		color: #fff;
+		color: black;
+		font-weight: bold;
 	}
 	form input {
 	    background-color: transparent;
 	    border: 0;
-	    border-bottom: 2px solid #fff;
+	    border-bottom: 2px solid #CCC;
 	    padding: 10px 5px;
 	    margin-top: 10px;
 	    margin-bottom: 10px;
+		
   	}
 	form button {
 	    display: block;
 	    width: 100%;
-	    background-color: blueviolet;
-	    color: #fff;
+	    background-color: orange;
+	    color: black;
 	    border-radius: 20px;
 	    padding: 10px;
 	    border: 0;
 	    margin-bottom: 10px;
+		font-size: 15px;
+		font-weight: bold;
+		
   	}	
 	#userID
 	, #password
@@ -82,7 +89,7 @@
 			<label for="password2">비밀번호 확인</label>
 			<input type="password" id="password2" name="password2" placeholder="비밀번호를 입력하세요." value="" />
 		</div>
-		<button type="button" id="btnDrop">탈퇴</button>
+		<button type="button" id="btnDrop">탈 퇴</button>
 	</form>
 	</div>
 	<script>
