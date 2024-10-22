@@ -1,279 +1,15 @@
 <!DOCTYPE html>
 <html>
+	
+
   <head>
     <meta charset="utf-8" />
+
+	<link th:href="@{/css/kakaoapi.css}" rel="stylesheet" />
+	<link th:href="@{/css/nevibar.css}" rel="stylesheet" />
+
     <title>성동구 빵집 찾기</title>
-	<style>
-		html,
-		body {
-		  height: 100%;
-		  margin: 0;
-		  padding: 0;
-		}
-		/* Nav Bar 스타일 */
-		.navbar {
-		  display: flex;
-		  justify-content: space-between;
-		  align-items: center;
-		  background-color: rgba(91, 172, 141, 0.8);
-		  border-radius: 40px;
-		  margin-top: 20px;
-		  margin-left: 90px;
-		  position: fixed; /* 네비바를 화면 상단에 고정 */
-		  top: 0; /* 화면 상단에 고정 */
-		  left: 0;
-		  width: 100%; /* 화면 전체 너비 차지 */
-		  z-index: 1000; /* 네비바가 지도 위에 표시되도록 z-index 설정 */
-		  padding: 10px 20px;
-		  width: 90%;
-		}
-		body {
-		  margin: 0;
-		  background-color: wheat;
-		}
-		.navbar__logo i {
-		  color: rgb(39, 36, 20);
-		  padding-left: 0;
-		  margin: 20px;
-		}
-		a {
-		  text-decoration: none;
-		  color: black;
-		}
-		.navbar__menu {
-		  list-style: none;
-		  display: flex;
-		  margin: 0;
-		  padding-left: 10;
-		}
-		.navbar__menu li {
-		  padding: 8px 30px;
-		}
-		.navbar__icons {
-		  list-style: none;
-		  display: flex;
-		  margin: 0;
-		  padding-left: 0;
-		}
-		.navbar__icons li {
-		  padding: 8px 12px;
-		  margin: 0;
-		}
-		.navbar__login {
-		  margin-right: 30px;
-		}
 
-		img {
-		  border-radius: 50px;
-		}
-		/*네비바 끝*/
-		/*네비바 메뉴바*/
-		.dropdown {
-		  position: relative;
-		  display: inline-block;
-		}
-
-		.dropbtn_icon {
-		  font-family: "Material Icons";
-		}
-		.dropbtn {
-		  border: 1px solid rgb(37, 37, 37);
-		  border-radius: 4px;
-		  background-color: rgba(255, 255, 255, 0.3);
-		  font-weight: 400;
-		  color: black;
-		  padding: 12px;
-		  width: 200px;
-		  text-align: left;
-		  cursor: pointer;
-		  font-size: 12px;
-		}
-		.dropdown-content {
-		  display: none;
-		  position: absolute;
-		  z-index: 1; /*다른 요소들보다 앞에 배치*/
-		  font-weight: 400;
-		  background-color: #f9f9f9;
-		  min-width: 200px;
-		}
-
-		.dropdown-content a {
-		  display: block;
-		  text-decoration: none;
-		  color: rgb(37, 37, 37);
-		  font-size: 12px;
-		  padding: 12px 20px;
-		}
-
-		.dropdown-content a:hover {
-		  background-color: #ececec;
-		}
-
-		.dropdown:hover .dropdown-content {
-		  display: block;
-		}
-
-		/*카카오api*/
-		.map_wrap,
-		.map_wrap * {
-		  margin: 0;
-		  padding: 0;
-		  font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
-		  font-size: 12px;
-		}
-		.map_wrap a,
-		.map_wrap a:hover,
-		.map_wrap a:active {
-		  color: #000;
-		  text-decoration: none;
-		}
-		.map_wrap {
-		  position: relative;
-		  width: 100%;
-		  height: 100%;
-		}
-		#menu_wrap {
-		  position: absolute;
-		  top: 0;
-		  left: 0;
-		  bottom: 0;
-		  width: 250px;
-		  margin: 10px 0 30px 10px;
-		  padding: 5px;
-		  overflow-y: auto;
-		  background: rgba(255, 255, 255, 0.7);
-		  z-index: 1;
-		  font-size: 12px;
-		  border-radius: 10px;
-		}
-		.bg_white {
-		  background: #fff;
-		}
-		#menu_wrap hr {
-		  display: block;
-		  height: 1px;
-		  border: 0;
-		  border-top: 2px solid #5f5f5f;
-		  margin: 3px 0;
-		}
-		#menu_wrap .option {
-		  text-align: center;
-		}
-		#menu_wrap .option p {
-		  margin: 10px 0;
-		}
-		#menu_wrap .option button {
-		  margin-left: 5px;
-		}
-		#placesList li {
-		  list-style: none;
-		}
-		#placesList .item {
-		  position: relative;
-		  border-bottom: 1px solid #888;
-		  overflow: hidden;
-		  cursor: pointer;
-		  min-height: 65px;
-		}
-		#placesList .item span {
-		  display: block;
-		  margin-top: 4px;
-		}
-		#placesList .item h5,
-		#placesList .item .info {
-		  text-overflow: ellipsis;
-		  overflow: hidden;
-		  white-space: nowrap;
-		}
-		#placesList .item .info {
-		  padding: 10px 0 10px 55px;
-		}
-		#placesList .info .gray {
-		  color: #8a8a8a;
-		}
-		#placesList .info .jibun {
-		  padding-left: 26px;
-		  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
-		    no-repeat;
-		}
-		#placesList .info .tel {
-		  color: #009900;
-		}
-		#placesList .item .markerbg {
-		  float: left;
-		  position: absolute;
-		  width: 36px;
-		  height: 37px;
-		  margin: 10px 0 0 10px;
-		  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
-		    no-repeat;
-		}
-		#placesList .item .marker_1 {
-		  background-position: 0 -10px;
-		}
-		#placesList .item .marker_2 {
-		  background-position: 0 -56px;
-		}
-		#placesList .item .marker_3 {
-		  background-position: 0 -102px;
-		}
-		#placesList .item .marker_4 {
-		  background-position: 0 -148px;
-		}
-		#placesList .item .marker_5 {
-		  background-position: 0 -194px;
-		}
-		#placesList .item .marker_6 {
-		  background-position: 0 -240px;
-		}
-		#placesList .item .marker_7 {
-		  background-position: 0 -286px;
-		}
-		#placesList .item .marker_8 {
-		  background-position: 0 -332px;
-		}
-		#placesList .item .marker_9 {
-		  background-position: 0 -378px;
-		}
-		#placesList .item .marker_10 {
-		  background-position: 0 -423px;
-		}
-		#placesList .item .marker_11 {
-		  background-position: 0 -470px;
-		}
-		#placesList .item .marker_12 {
-		  background-position: 0 -516px;
-		}
-		#placesList .item .marker_13 {
-		  background-position: 0 -562px;
-		}
-		#placesList .item .marker_14 {
-		  background-position: 0 -608px;
-		}
-		#placesList .item .marker_15 {
-		  background-position: 0 -654px;
-		}
-		#pagination {
-		  margin: 10px auto;
-		  text-align: center;
-		}
-		#pagination a {
-		  display: inline-block;
-		  margin-right: 10px;
-		}
-		#pagination .on {
-		  font-weight: bold;
-		  cursor: default;
-		  color: #777;
-		}
-		#menu_wrap {
-		  margin-top: 120px;
-		  margin-bottom: 100px;
-		  margin-left: 30px;
-		}
-
-	</style>
-    <link href="/bstyle.css" rel="stylesheet" />
   </head>
   <body>
     <!-- Nav Bar -->
@@ -310,9 +46,19 @@
         <div class="option">
           <div>
             <form onsubmit="searchPlaces(); return false;">
-              키워드 :
+              빵집 검색 :
               <input type="text" id="keyword" size="15" />
-              <button type="submit">검색하기</button>
+
+			  <!-- 검색하기 버튼을 아이콘으로 변경 -->
+			  <button type="submit" style="background: none; border: none;">
+			    <!-- SVG 아이콘 -->
+			    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+			      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+			    </svg>
+			    
+			    <!-- Bootstrap 아이콘 추가 -->
+			    <i class="bi bi-search" style="margin-left: 5px;"></i>
+			  </button>
             </form>
           </div>
         </div>

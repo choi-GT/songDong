@@ -2,7 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>${title}</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<title th:text="${title}"></title>
 <style>
     * {
         margin: 0;
@@ -40,6 +41,7 @@
     }
     form label {
         color: black;
+		font-weight: bold;
     }
     form input {
         background-color: transparent;
@@ -58,6 +60,8 @@
         padding: 10px;
         border: 0;
         margin-bottom: 10px;
+		font-weight: bold;
+		font-size: 15px;
     }    
     
     #error-message {
@@ -67,6 +71,11 @@
         display: none; /* 처음에는 숨김 */
 		font-weight: bold;
     }
+	
+	#error-message {
+		text-indent: 10px;
+	}
+	
 </style>
 </head>
 <body>
@@ -100,8 +109,8 @@
         </div>
 		<!-- 오류 메시지를 표시할 요소 추가 -->
         <div id="error-message"></div>
-        <button type="button" id="btnConfirm">확인</button>
-        <button type="button" id="btnDelete">회원 탈퇴</button>
+        <button type="button" id="btnConfirm">확 인</button>
+        <button type="button" id="btnDelete" onclick="location.href='/member/memberDrop' ">회원 탈퇴</button>
 
         
     </form>
