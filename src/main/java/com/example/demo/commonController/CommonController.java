@@ -146,6 +146,7 @@ public class CommonController {
     @GetMapping("/checkEmail/{email}")
     public ResponseEntity<Boolean> checkEmail(@PathVariable String email) {
         boolean isAvailable = memberService.isEmailAvailable(email);
+        log.info("1111");
         return ResponseEntity.ok(isAvailable);
     }
 
