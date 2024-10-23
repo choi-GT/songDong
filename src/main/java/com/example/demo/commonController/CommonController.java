@@ -92,7 +92,7 @@ public class CommonController {
 			log.info("id값은 " + id);
 			log.info("id값은 " + id);
 			
-            mav.setViewName("redirect:/member/findOften");
+            mav.setViewName("redirect:/");
         } else {
             log.info("로그인 실패");
             mav.setViewName("forward:/member/login");
