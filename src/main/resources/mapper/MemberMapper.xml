@@ -62,6 +62,22 @@
 			AND ISUSE = 1
 	</select>
 	
+	<insert id="insert" parameterType="com.example.demo.vo.MemberShipVO">
+		INSERT INTO SEMI.MEMBERSHIP (
+			USERID
+			, PASSWORD
+			, USERNAME
+			, PHONENUMBER
+			, EMAIL
+		) VALUES (
+			#{userID}
+			, STANDARD_HASH(#{password}, 'SHA256')
+			, #{username}
+			, #{phoneNumber}
+			, #{email}
+		)
+	</insert>
+	
 	<select id="findID" parameterType="String" resultType="String">
 		SELECT
 			SUBSTR(userID, 1, 2) || LPAD('*', LENGTH(userID) - 2, '*') AS userID

@@ -220,6 +220,11 @@ public class CommonController {
 		return "common/findPW";
 	}
 	
+	/**
+	 * 임시비밀번호 발급하기
+	 * @param changePwRequest
+	 * @return
+	 */
 	@PostMapping("/changePW")
 	@ResponseBody
 	public ResponseEntity<?> changePW(

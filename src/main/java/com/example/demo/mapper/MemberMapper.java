@@ -29,6 +29,14 @@ public class MemberMapper {
 	}
 	
 	/**
+	 * 회원 저장
+	 * @param memberVO
+	 */
+	public void insert(MemberShipVO memberShipVO) {
+		session.insert("member.insert", memberShipVO);
+	}
+	
+	/**
 	 * 회원 탈퇴 처리
 	 * @param idx
 	 */

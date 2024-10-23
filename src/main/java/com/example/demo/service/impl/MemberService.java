@@ -45,7 +45,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 	@Override
 	public void insert(MemberShipVO e) {
-		
+		mapper.insert(e);
 	}
 	@Override
 	public void update(MemberShipVO e) {
@@ -165,8 +165,12 @@ public class MemberService implements CrudService<MemberShipVO> {
 		return map;
 	}
 	
+	/**
+	 * 아이디와 이메일로 idx 찾고 임시비밀번호 발급
+	 * @param changePwRequest
+	 * @return
+	 */
 	public Object changePW(ChangePwRequest changePwRequest) {
-		// 이메일, 아이디로 해당 row 존재 여부 확인 (row가 있으면 idx값이 리턴된다.)
 		MemberShipVO memberShipVO = MemberShipVO.builder()
 				.email(changePwRequest.getEmail())
 				.userID(changePwRequest.getUserID())
@@ -182,8 +186,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 			return map;
 		}
 		
-		// 계정이 있으면 랜덤하게 문자열을 생성해서 
-		// idx값에 해당하는 비밀번호 변경
+		// 계정이 있으면 랜덤하게 문자열을 생성해서 idx값에 해당하는 비밀번호 변경
 		String randomPw = StringUtil.generateRandomString(10);
 		
 		// 기존에 memberVO가 있기때문에 별도로 생성 하지 않고 기존 변수명 활용
