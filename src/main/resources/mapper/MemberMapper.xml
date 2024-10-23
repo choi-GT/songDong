@@ -78,8 +78,8 @@
 				<if test="email != '' and !email.equals('')">
 					, EMAIL 	= #{email}
 				</if>
-				<if test="phonnumber != '' and !phonnumber.equals('')">
-					, PHONENUMBER = #{phonnumber}
+				<if test="phoneNumber != '' and !phoneNumber.equals('')">
+					, PHONENUMBER = #{phoneNumber}
 				</if>
 			</set>
 		WHERE idx = #{idx}
