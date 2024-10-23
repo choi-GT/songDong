@@ -11,7 +11,7 @@ public interface StoreService2 {
 	
 	boolean saveFavoriteStore(String storeName, HttpServletRequest request); // 즐겨찾기 저장 메서드 추가
 	
-	boolean removeFavoriteStore(String storeName); // 즐겨찾기 삭제 메서드 추가
+	boolean removeFavoriteStore(String storeName); // 즐겨찾기 삭제 메서드 추가 
 	
 	
 }

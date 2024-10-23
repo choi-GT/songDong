@@ -4,7 +4,7 @@ let selectedStore;
 let map; // 전역 변수로 지도 저장
 
 // 카카오 맵 로드 및 초기화
-kakao.maps.load(() => {
+kakao.maps.load(() => { 
     initMap();	
     updateFavoriteList();
 });

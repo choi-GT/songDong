@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 	        	log.info(requestMap.toString());
 	            storeMapper.insertFavoriteStore(requestMap); // 매퍼에서 호출
 	            return true;
-	        } catch (Exception e) {
+	        } catch (Exception e) { 
 	            e.printStackTrace();
 	            return false;
 	        }

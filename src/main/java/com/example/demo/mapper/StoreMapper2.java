@@ -23,7 +23,7 @@ public interface StoreMapper2 {
 //            "WHEN NOT MATCHED THEN " +
 //            "    INSERT (STORE_NAME, COUNT) VALUES (#{storeName}, 1)"
 //            )
-    void insertFavoriteStore(HashMap<String, Object> map);
+    void insertFavoriteStore(HashMap<String, Object> map); 
     
     @Delete("DELETE FROM SEMI.FAVORITE_STORES WHERE STORE_NAME = #{storeName}")
     void deleteFavoriteStore(String storeName);
