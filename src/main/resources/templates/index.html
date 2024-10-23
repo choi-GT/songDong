@@ -15,26 +15,77 @@
     <!-- Nav Bar -->
     <nav class="navbar">
       <div class="navbar__logo">
-        <i class="fas fa-blog"></i>
-
-        <a href="#">성동구 빵집</a>
+        <a href="/" class="navbar__logo">성동구 빵집</a>
       </div>
 
       </div>
-      <ul class="navbar__menu">
-        <li><a href="/member/findOften">즐겨찾기</a></li>
-        <li><a href="#">검색 히스토리</a></li>
-      </ul>
-      <div class="dropdown">
-        <button class="dropbtn">
-          <span class="dropbtn_icon">회원관리</span>
-        </button>
-        <div class="dropdown-content">
-          <a href="/member/login">로그인</a>
-          <a href="/member/myPage">마이페이지</a>
-          <a href="/member/join">회원가입</a>
-        </div>
+
+			<div>
+		      <div class="dropdown2">
+		        <button class="dropbtn">
+		          <span class="dropbtn_icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-clipboard2-heart-fill" viewBox="0 0 16 16">
+					  <path fill-rule="evenodd" d="M10.058.501a.5.5 0 0 0-.5-.501h-2.98c-.276 0-.5.225-.5.501A.5.5 0 0 1 5.582 1a.497.497 0 0 0-.497.497V2a.5.5 0 0 0 .5.5h4.968a.5.5 0 0 0 .5-.5v-.503A.497.497 0 0 0 10.555 1a.5.5 0 0 1-.497-.499"/>
+					  <path fill-rule="evenodd" d="M4.174 1h-.57a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-12a1.5 1.5 0 0 0-1.5-1.5h-.642q.084.236.085.5V2c0 .828-.668 1.5-1.492 1.5H5.581A1.496 1.496 0 0 1 4.09 2v-.5q.001-.264.085-.5Zm3.894 5.482c1.656-1.673 5.795 1.254 0 5.018-5.795-3.764-1.656-6.69 0-5.018"/>
+					</svg>
+					<i class="bi bi-clipboard2-heart-fill"></i>
+		          </span>
+		        </button>
+		        <div class="dropdown2-content">
+
+		          <a href="/member/findOften">즐겨찾기</a>
+		          <a href="#">검색 히스토리</a>
+		        </div>
+		      </div>
+			  <div class="dropdown">
+			    <button class="dropbtn">
+			      <span class="dropbtn_icon">
+			  	<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+			  	  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+			  	  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+			  	</svg>
+			  	<i class="bi bi-person-circle"></i>
+			  	
+			    </span>
+			    </button>
+			    <div class="dropdown-content">
+					<a href="/member/login">로그인</a>
+					<a href="/member/join">회원가입</a>
+			    	<a href="/member/myPage">마이페이지</a>
+
+				  </div>
+			    </div>
+		    </nav>
+		  </body>
+		</html>
     </nav>
+	<script>
+	   // 첫 번째 드롭다운 열기/닫기
+	   document.querySelector('.dropdown .dropbtn').addEventListener('click', function() {
+	     var dropdownContent = document.querySelector('.dropdown .dropdown-content');
+	     dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+	     
+	     // 다른 드롭다운은 닫기
+	     document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
+	   });
+
+	   // 두 번째 드롭다운 열기/닫기
+	   document.querySelector('.dropdown2 .dropbtn').addEventListener('click', function() {
+	     var dropdownContent2 = document.querySelector('.dropdown2 .dropdown2-content');
+	     dropdownContent2.style.display = dropdownContent2.style.display === 'block' ? 'none' : 'block';
+	     
+	     // 다른 드롭다운은 닫기
+	     document.querySelector('.dropdown .dropdown-content').style.display = 'none';
+	   });
+
+	   // 페이지의 다른 곳을 클릭하면 드롭다운 닫기
+	   window.addEventListener('click', function(event) {
+	     if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown') && !event.target.closest('.dropdown2')) {
+	       document.querySelector('.dropdown .dropdown-content').style.display = 'none';
+	       document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
+	     }
+	   });
+	 </script>
 
     <div class="map_wrap">
       <div
