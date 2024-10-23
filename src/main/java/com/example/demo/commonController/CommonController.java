@@ -1,5 +1,6 @@
 package com.example.demo.commonController;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,15 +160,32 @@ public class CommonController {
     }
 
     /**
-     * 이메일 중복 체크
-     * @param email
-     * @return
-     */
-    @GetMapping("/checkEmail/{email}")
-    public ResponseEntity<Boolean> checkEmail(@PathVariable("email") String email) {
-        boolean isAvailable = memberService.isEmailAvailable(email);
-        return ResponseEntity.ok(isAvailable);
-    }
+	 * 비동기 통신 아이디 중복 확인
+	 * @return
+	 */
+	@GetMapping("/checkUserID/{userID}")
+	@ResponseBody
+	public ResponseEntity<?> checkUserID(
+			@PathVariable(value = "userID") String userID
+			) {
+		HashMap<String, Object> result = memberService.checkUserID(userID);
+		
+		return ResponseEntity.ok(result);
+	}
+	
+	/**
+	 * 비동기 통신 이메일 중복 확인
+	 * @param email
+	 * @return
+	 */
+	@GetMapping("/checkEmail/{email}")
+	@ResponseBody
+	public ResponseEntity<?> checkEmail(
+			@PathVariable(value = "email") String email
+			) {
+		HashMap<String, Object> result = memberService.checkEmail(email);
+		return ResponseEntity.ok(result);
+	}
 
     @GetMapping("/findID")
     public String findID() {

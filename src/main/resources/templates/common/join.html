@@ -69,7 +69,7 @@
         padding: 10px;
         width: 100%;
       }
-      .rightBirth, .rightNumber, .usingNumber, .rightEmail, .usingId, .idEnough, .pwLength, .pwEnough, .pwIncorrect {
+      .rightBirth, .rightNumber, .usingNumber, .rightEmail, .usingEmail, .usingId, .idEnough, .pwLength, .pwEnough, .pwIncorrect {
         margin-left: 10px;
         color: red;
       }
@@ -139,6 +139,7 @@
       <div class="rightNumber hide">* 올바르지 않은 번호 형식입니다.</div>
       <div class="usingNumber hide">* 이미 등록된 휴대폰 번호입니다.</div>
       <div class="rightEmail hide">* 올바르지 않은 이메일 형식입니다.</div>
+	  <div class="usingEmail hide">* 이미 등록된 이메일입니다.</div>
       <div class="idPw">
         <input
           type="text"
@@ -189,6 +190,7 @@
       const rightBirth = document.querySelector(".rightBirth");
       const rightNumber = document.querySelector(".rightNumber");
       const rightEmail = document.querySelector(".rightEmail");
+	  const usingEmail = document.querySelector(".usingEmail");
 
       const userID = document.querySelector("#userID").value?.trim();
       const newPw = document.querySelector("#password").value?.trim();
@@ -310,19 +312,6 @@
       function rightMail(str) {
         return /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/.test(str);
       }
-
-      // 이메일 입력 시 적용되는 내용
-      email.onchange = function() {
-        if (email.length !== 0) {
-          if (rightMail(email) === true) {
-            // 형식에 맞게 입력할 경우 오류 메시지 숨김
-            rightEmail.classList.add('hide');
-          } else {
-            // 형식에 맞지 않게 입력할 경우 오류 메시지 표시
-            rightEmail.classList.remove('hide');
-          }
-        }
-      }
       
       // 비밀번호를 숫자와 문자의 조합을 했는지, 6자 이상 입력했는지 확인
       function pwCheck(str) {
@@ -369,9 +358,15 @@
 	
 	  const userIdCheck = document.querySelector('#userID');
 	  // 아이디 중복 체크
-	  userIdCheck.addEventListener('change', function(e){
+	  userIdCheck.addEventListener('blur', function(e){
 		idCheck = false;
 		idDup = false;
+		
+		available.classList.add('hide');
+		usingId.classList.add('hide');
+		idEnough.classList.add('hide');
+		
+		const userID = document.querySelector("#userID").value?.trim();
 		
 		fetch('/member/checkUserID/' + userID)
 		.then((response) => response.json())
@@ -402,22 +397,30 @@
 	  const userEmailCheck = document.querySelector('#email');
 	
 	  // 이메일 중복 체크
-	  userEmailCheck.addEventListener('click', function(e){
+	  userEmailCheck.addEventListener('blur', function(e){
 		emailCheck = false;
 		emailDup = false;
-		const email = document.querySelector('#email').value?.trim(); // ?전까지 실행하고 true일 경우 trim 실행
 		
-		fetch('/member/checkUserEmail/' + userID)
+		rightEmail.classList.add('hide');
+		usingEmail.classList.add('hide');
+		
+		const email = document.querySelector("#email").value?.trim();
+		
+		fetch('/member/checkEmail/' + email)
 		.then((response) => response.json())
 		.then((data) => {
 			const isExist = data.isExist;
 			emailCheck = true;
 			emailDup = isExist;
-			if (isExist) {
-				alert('이미 사용중인 이메일입니다.');
-				document.querySelector('#email').focus();
+			if (isExist && rightMail(email) === true) {
+				rightEmail.classList.add('hide');
+				usingEmail.classList.remove('hide');
+			} else if (rightMail(email) === false) {
+				rightEmail.classList.remove('hide');
+				usingEmail.classList.add('hide');
 			} else {
-				alert('사용 가능한 이메일입니다.');
+				rightEmail.classList.add('hide');
+				usingEmail.classList.add('hide');
 			}
 		});
 	  });
