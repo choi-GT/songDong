@@ -223,7 +223,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 //		}
 		
 		
-		
+		log.info("226");
 		mapper.updateInfo(memberShipVO);
 		
 		return true;
