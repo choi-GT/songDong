@@ -35,16 +35,16 @@ public class FavoriteStoreController {
     	return null;  
     }
 
-    @DeleteMapping("/favorites")
-    public ResponseEntity<Void> removeFavorite(@RequestBody String json) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            FavoriteStoreVO favoriteStore = objectMapper.readValue(json, FavoriteStoreVO.class);
-            boolean success = storeService.removeFavoriteStore(favoriteStore.getStoreName());
-            return success ? ResponseEntity.ok().build() : ResponseEntity.status(500).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).build();
-        }
-    }
+//    @DeleteMapping("/favorites")
+//    public ResponseEntity<Void> removeFavorite(@RequestBody String json) {
+//        try {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            FavoriteStoreVO favoriteStore = objectMapper.readValue(json, FavoriteStoreVO.class);
+//            boolean success = storeService.removeFavoriteStore(favoriteStore.getStoreName());
+//            return success ? ResponseEntity.ok().build() : ResponseEntity.status(500).build();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(500).build();
+//        }
+//    }
 }

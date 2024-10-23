@@ -46,14 +46,13 @@ import lombok.extern.slf4j.Slf4j;
 	    }
 	    
 	    @Override
-	    public boolean removeFavoriteStore(String storeName) {
-	        try {
-	            storeMapper.deleteFavoriteStore(storeName); // 매퍼에서 호출
-	            return true;
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return false;
-	        }
+	    public void removeFavoriteStore(String storeName, HttpServletRequest request) {
+        	HttpSession session = request.getSession();
+        	MemberShipVO vo = (MemberShipVO) session.getAttribute("userInfo");
+        	HashMap<String, Object> requestMap = new HashMap<>();
+        	requestMap.put("storeName", storeName);
+        	requestMap.put("userIDX", vo.getIdx());
+	    	storeMapper.deleteFavoriteStore(requestMap);
 	    }
 
 		@Override

@@ -24,4 +24,9 @@
     	WHERE USERIDX = #{userIDX} 
     </select>
     
+    <delete id="deleteFavoriteStore" parameterType="java.util.HashMap">
+    	DELETE FROM SEMI.FAVORITE_STORES 
+    	WHERE STORE_NAME = #{storeName} and USERIDX = #{userIDX}
+    </delete>
+    
 </mapper>

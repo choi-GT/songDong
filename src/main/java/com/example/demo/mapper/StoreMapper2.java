@@ -25,8 +25,8 @@ public interface StoreMapper2 {
 //            )
     void insertFavoriteStore(HashMap<String, Object> map); 
     
-    @Delete("DELETE FROM SEMI.FAVORITE_STORES WHERE STORE_NAME = #{storeName}")
-    void deleteFavoriteStore(String storeName);
+//    @Delete("DELETE FROM SEMI.FAVORITE_STORES WHERE STORE_NAME = #{storeName}")
+    void deleteFavoriteStore(HashMap<String, Object> map);
 
 	List<StoreInfoVO> getFavoriteStores(Long userId);
 }

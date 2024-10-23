@@ -168,31 +168,22 @@ async function updateFavoriteList() {
 
 // 즐겨찾기 제거
 async function removeFavorite(storeId) {
-    const index = storeIds.indexOf(storeId);
-    if (index > -1) {
-        // 로컬 저장소에서 제거
-        storeIds.splice(index, 1);
-        //localStorage.setItem("favoriteStores", JSON.stringify(storeIds));
+	// DB에서 제거 요청
+	        await deleteFavoriteFromDB(storeId);
 
-        // DB에서 제거 요청
-        await deleteFavoriteFromDB(storeId);
-
-        updateFavoriteList();
-        alert(`${storeId} 는 즐겨찾기 목록에서 삭제되었습니다.`);
-    } else {
-        alert(`${storeId} 는 즐겨찾기 목록에 없습니다.`);
-    }
+	        updateFavoriteList();
+	        alert(`${storeId} 는 즐겨찾기 목록에서 삭제되었습니다.`);
 }
 
 // DB에서 즐겨찾기 삭제
 async function deleteFavoriteFromDB(storeName) {
     try {
-        await fetch('http://192.168.30.10:8080/api/favorites', {
-            method: 'DELETE',
+        await fetch('/api/favorite/delete', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json', // JSON 형식으로 설정
             },
-            body: JSON.stringify({ storeName }), // storeName을 JSON 객체로 감싸서 전송
+            body: JSON.stringify({ storeName: storeName }), // storeName을 JSON 객체로 감싸서 전송
         });
     } catch (error) {
         console.error("DB 삭제 실패:", error);

@@ -1,11 +1,14 @@
 package com.example.demo.commonController;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,6 +55,16 @@ public class ApiController {
 	        return storeService2.getFavoriteStores(vo.getIdx());
 	    }
 	 
+	 @PostMapping("/favorite/delete")
+	    public ResponseEntity<?> deleteFavoriteStore(@RequestBody HashMap<String, Object> requestMap, HttpServletRequest request) {
+		 	HttpSession session = request.getSession();
+		 	MemberShipVO vo = (MemberShipVO) session.getAttribute("userInfo");
+		 	String storeName = (String) requestMap.get("storeName");
+		 	storeService2.removeFavoriteStore(storeName, request);
+			return ResponseEntity.ok("11");
+	        
+	    }
+
 
 
 	
