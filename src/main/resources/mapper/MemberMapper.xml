@@ -69,6 +69,11 @@
 			WHERE email = #{email}
 	</select>
 	
+	<select id="findPW" parameterType="String" resultType="Long">
+		SELECT idx FROM MEMBER
+		WHERE email = #{email} AND userID = #{userID}
+	</select>
+	
 	<update id="memberDrop" parameterType="com.example.demo.vo.MemberShipVO">
 	    UPDATE SEMI.MEMBERSHIP SET 
 	        ISUSE = 0,

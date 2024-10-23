@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.payload.request.ChangePwRequest;
 import com.example.demo.payload.request.JoinRequest;
 import com.example.demo.service.StoreService2;
 import com.example.demo.service.impl.MemberService;
@@ -207,13 +208,23 @@ public class CommonController {
 	 */
 	@GetMapping("/findID/{email}")
 	@ResponseBody
-	public ResponseEntity<?> findIDByEmail(@PathVariable String email) {
-		return ResponseEntity.ok(memberService.findID(email));
+	public ResponseEntity<?> findIDByEmail(
+			@PathVariable(value = "email") String email
+			) {
+		HashMap<String, Object> result = memberService.findID(email);
+		return ResponseEntity.ok(result);
 	}
 	
 	@GetMapping("/findPW")
 	public String findPW() {
 		return "common/findPW";
+	}
+	
+	@PostMapping("/changePW")
+	@ResponseBody
+	public ResponseEntity<?> changePW(
+			@RequestBody ChangePwRequest changePwRequest) {
+		return ResponseEntity.ok(memberService.changePW(changePwRequest));
 	}
 
     @RequestMapping("/myInfo")

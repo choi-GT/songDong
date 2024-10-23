@@ -98,7 +98,7 @@
       </div>
     </form>
 	<script th:inline="javascript">
-		document.querySelector('#findIdForm').addEventListener('submit', function(e) {
+		document.querySelector('#findID').addEventListener('click', function(e) {
 			e.preventDefault();
 			const email = document.querySelector('#email').value?.trim();
 			fetch('/member/findID/' + email)
