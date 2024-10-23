@@ -189,6 +189,7 @@
 
       const rightBirth = document.querySelector(".rightBirth");
       const rightNumber = document.querySelector(".rightNumber");
+	  const usingNumber = document.querySelector(".usingNumber");
       const rightEmail = document.querySelector(".rightEmail");
 	  const usingEmail = document.querySelector(".usingEmail");
 
@@ -295,19 +296,6 @@
         return /^(010)-?[0-9]{3,4}-?[0-9]{4}$/.test(str);
       }
 
-      // 휴대폰 번호 입력 시 적용되는 내용
-      number.onchange = function() {
-        if (number.length !== 0) {
-          if (rightNum(number) === true) {
-            // 형식에 맞게 입력할 경우 오류 메시지 숨김
-            rightNumber.classList.add('hide');
-          } else {
-            // 형식에 맞지 않게 입력할 경우 오류 메시지 표시
-            rightNumber.classList.remove('hide');
-          }
-        }
-      }
-
       // 이메일을 형식에 맞게 입력했는지 확인
       function rightMail(str) {
         return /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/.test(str);
@@ -352,43 +340,40 @@
         }
       }
 	  
-	  // 아이디 중복 체크 여부 변수
-	  let idCheck = false;
-	  let idDup = false;
-	
-	  const userIdCheck = document.querySelector('#userID');
-	  // 아이디 중복 체크
-	  userIdCheck.addEventListener('blur', function(e){
-		idCheck = false;
-		idDup = false;
-		
-		available.classList.add('hide');
-		usingId.classList.add('hide');
-		idEnough.classList.add('hide');
-		
-		const userID = document.querySelector("#userID").value?.trim();
-		
-		fetch('/member/checkUserID/' + userID)
-		.then((response) => response.json())
-		.then((data) => {
-			const isExist = data.isExist;
-			idCheck = true;
-			idDup = isExist;
-			if(userID.length > 4 && isExist) {
-				available.classList.add('hide');
-				usingId.classList.remove('hide');
-				idEnough.classList.add('hide');
-			} else if(userID.length < 5) {
-				available.classList.add('hide');
-				usingId.classList.add('hide');
-				idEnough.classList.remove('hide');
-			} else {
-				available.classList.remove('hide');
-				usingId.classList.add('hide');
-				idEnough.classList.add('hide');
-			}
-		});
-	  });
+	  // 휴대폰 번호 중복 체크 여부 변수
+  	  let numberCheck = false;
+  	  let numberDup = false;
+  	
+  	  const phoneNumberCheck = document.querySelector('#phoneNumber');
+  	  // 휴대폰 번호 중복 체크
+  	  phoneNumberCheck.addEventListener('blur', function(e){
+  		numberCheck = false;
+  		numberDup = false;
+  		
+  		available.classList.add('hide');
+  		usingId.classList.add('hide');
+  		idEnough.classList.add('hide');
+  		
+  		const phoneNumber = document.querySelector("#phoneNumber").value?.trim();
+  		
+  		fetch('/member/checkPhone/' + phoneNumber)
+  		.then((response) => response.json())
+  		.then((data) => {
+  			const isExist = data.isExist;
+  			numberCheck = true;
+  			numberDup = isExist;
+  			if(rightNum(number) === true && isExist) {
+  				rightNumber.classList.add('hide');
+  				usingNumber.classList.remove('hide');
+  			} else if(rightNum(number) === false) {
+				rightNumber.classList.remove('hide');
+  				usingNumber.classList.add('hide');
+  			} else {
+				rightNumber.classList.add('hide');
+  				usingNumber.classList.add('hide');
+  			}
+  		});
+  	  });
 
 	  // 이메일 중복 체크 여부 변수
 	  let emailCheck = false;
@@ -424,6 +409,44 @@
 			}
 		});
 	  });
+	  
+	  // 아이디 중복 체크 여부 변수
+  	  let idCheck = false;
+  	  let idDup = false;
+  	
+  	  const userIdCheck = document.querySelector('#userID');
+  	  // 아이디 중복 체크
+  	  userIdCheck.addEventListener('blur', function(e){
+  		idCheck = false;
+  		idDup = false;
+  		
+  		available.classList.add('hide');
+  		usingId.classList.add('hide');
+  		idEnough.classList.add('hide');
+  		
+  		const userID = document.querySelector("#userID").value?.trim();
+  		
+  		fetch('/member/checkUserID/' + userID)
+  		.then((response) => response.json())
+  		.then((data) => {
+  			const isExist = data.isExist;
+  			idCheck = true;
+  			idDup = isExist;
+  			if(userID.length > 4 && isExist) {
+  				available.classList.add('hide');
+  				usingId.classList.remove('hide');
+  				idEnough.classList.add('hide');
+  			} else if(userID.length < 5) {
+  				available.classList.add('hide');
+  				usingId.classList.add('hide');
+  				idEnough.classList.remove('hide');
+  			} else {
+  				available.classList.remove('hide');
+  				usingId.classList.add('hide');
+  				idEnough.classList.add('hide');
+  			}
+  		});
+  	  });
 	  
 	  // 회원가입 전 최종확인
 	  const btnJoin = document.querySelector('#join');
