@@ -12,12 +12,11 @@ public class ConnectionInfoServiceImpl implements ConnectionInfoService{
 	@Autowired
 	private ConnectionInfoMapper connectionInfoMapper;
 	
-	
-	
+		
 
 	@Override
 	public int insert(ConnectionInfoVO connectionInfoVO) {
-		// TODO Auto-generated method stub
+		
 		return connectionInfoMapper.insert(connectionInfoVO);
 	}
 }

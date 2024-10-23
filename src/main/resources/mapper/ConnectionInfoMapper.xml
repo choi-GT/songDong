@@ -8,6 +8,4 @@
 			#{userID}
 		)
 	</insert>
-
-
 </mapper>

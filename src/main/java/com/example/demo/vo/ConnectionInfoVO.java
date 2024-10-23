@@ -14,4 +14,5 @@ import lombok.ToString;
 public class ConnectionInfoVO {
 	private Long userID;
 	private Date loginDate;
+	
 }
