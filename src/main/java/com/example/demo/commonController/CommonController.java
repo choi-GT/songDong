@@ -152,9 +152,9 @@ public class CommonController {
      * @param email
      * @return
      */
-    @GetMapping("/checkPhone/{phonnumber}")
-    public ResponseEntity<Boolean> checkPhone(@PathVariable("phonnumber") String phonnumber) {
-        boolean isAvailable = memberService.isPhoneAvailable(phonnumber);
+    @GetMapping("/checkPhone/{phoneNumber}")
+    public ResponseEntity<Boolean> checkPhone(@PathVariable("phoneNumber") String phoneNumber) {
+        boolean isAvailable = memberService.isPhoneAvailable(phoneNumber);
         return ResponseEntity.ok(isAvailable);
     }
 

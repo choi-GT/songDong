@@ -58,7 +58,7 @@
 	<select id="checkPhone" parameterType="String" resultType="int">
 		SELECT COUNT(*) AS CUT
 		FROM SEMI.MEMBERSHIP
-		WHERE PHONENUMBER = #{phonnumber}
+		WHERE PHONENUMBER = #{phoneNumber}
 			AND ISUSE = 1
 	</select>
 	
@@ -92,8 +92,8 @@
 				<if test="email != '' and !email.equals('')">
 					, EMAIL 	= #{email}
 				</if>
-				<if test="phonnumber != '' and !phonnumber.equals('')">
-					, PHONENUMBER = #{phonnumber}
+				<if test="phoneNumber != '' and !phoneNumber.equals('')">
+					, PHONENUMBER = #{phoneNumber}
 				</if>
 			</set>
 		WHERE idx = #{idx}

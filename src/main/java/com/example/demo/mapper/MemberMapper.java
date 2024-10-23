@@ -50,8 +50,8 @@ public class MemberMapper {
 	 * @param phonnumber
 	 * @return
 	 */
-	public int checkPhone(String phonnumber) {
-		return session.selectOne("member.checkPhone", phonnumber);
+	public int checkPhone(String phoneNumber) {
+		return session.selectOne("member.checkPhone", phoneNumber);
 	}
 	
 	/**

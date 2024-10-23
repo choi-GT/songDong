@@ -76,8 +76,8 @@ public class MemberService implements CrudService<MemberShipVO> {
 	/** 체크 폰 넘버
 	 * 
 	 */
-	public boolean isPhoneAvailable(String phonnumber) {
-        int count = mapper.checkPhone(phonnumber);
+	public boolean isPhoneAvailable(String phoneNumber) {
+        int count = mapper.checkPhone(phoneNumber);
         return count == 0 ? true : false; // 이메일이 사용 가능한 경우 0 반환
     }
 	
