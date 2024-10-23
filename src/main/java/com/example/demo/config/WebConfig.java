@@ -35,6 +35,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/admin/**") // 관리자 페이지 경로
                 .addPathPatterns("/member/updateMemberInfo") // 필요한 다른 경로 추가
                 .addPathPatterns("/member/myPage")
-                .addPathPatterns("/member/favoriteList");
+                .addPathPatterns("/member/favoriteList")
+                .addPathPatterns("/member/myInfo")
+                .addPathPatterns("/member/memberDrop");
 }
 }
