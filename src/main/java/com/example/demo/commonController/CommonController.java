@@ -195,13 +195,28 @@ public class CommonController {
     }
 
     @GetMapping("/findOften")
-    public ModelAndView findOften(Model model, @RequestParam(value = "shopName", required = false, defaultValue = "") String shopName) {
+    public ModelAndView findOften(HttpServletRequest request, Model model, 
+                                   @RequestParam(value = "shopName", required = false, defaultValue = "") String shopName) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("common/findOften");
-        mav.addObject("title", "즐겨찾기 페이지");
-        mav.addObject("shopName", shopName);
+
+        // 세션에서 사용자 정보 확인
+        HttpSession session = request.getSession();
+        MemberShipVO memberShipVO = (MemberShipVO) session.getAttribute("userInfo");
+
+        // 로그인 여부 확인
+        if (memberShipVO == null) {
+            // 로그인되어 있지 않으면 로그인 페이지로 리다이렉트
+            mav.setViewName("redirect:/member/login");
+        } else {
+            // 로그인되어 있으면 즐겨찾기 페이지로 이동
+            mav.setViewName("common/findOften");
+            mav.addObject("title", "즐겨찾기 페이지");
+            mav.addObject("shopName", shopName);
+        }
+
         return mav;
     }
+
 
 
     @GetMapping("/map")
