@@ -55,6 +55,13 @@
 			AND ISUSE = 1
 	</select>
 	
+	<select id="checkPhone" parameterType="String" resultType="int">
+		SELECT COUNT(*) AS CUT
+		FROM SEMI.MEMBERSHIP
+		WHERE PHONENUMBER = #{phonnumber}
+			AND ISUSE = 1
+	</select>
+	
 	<select id="findID" parameterType="String" resultType="String">
 		SELECT
 			SUBSTR(userID, 1, 2) || LPAD('*', LENGTH(userID) - 2, '*') AS userID

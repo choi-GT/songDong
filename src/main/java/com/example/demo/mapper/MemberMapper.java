@@ -46,6 +46,15 @@ public class MemberMapper {
 	}
 	
 	/**
+	 * 핸드폰 중복 체크
+	 * @param phonnumber
+	 * @return
+	 */
+	public int checkPhone(String phonnumber) {
+		return session.selectOne("member.checkPhone", phonnumber);
+	}
+	
+	/**
 	 * email 중복 체크
 	 * @param userID
 	 * @return

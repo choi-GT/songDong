@@ -68,14 +68,8 @@ public class CommonController {
         MemberShipVO result = memberService.selectOne(memberShipVO);
         if (result != null) {
             log.info("로그인 성공");
-            
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", result);
-            
-            
-            MemberShipVO v = (MemberShipVO) session.getAttribute("userInfo");
-            log.info(v.toString());
-        	mav.addObject("userInfo", v);
             
             String redirectUrl = (String) session.getAttribute("redirectUrl");
             if (redirectUrl != null) {
@@ -140,19 +134,38 @@ public class CommonController {
 		return ResponseEntity.ok(memberService.memberJoin(joinRequest));
 	}
 
+	/**
+	 * 마이 페이지 
+	 * @param request
+	 * @return
+	 */
     @GetMapping("/myPage")
     public ModelAndView myPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("common/myPage");
         mav.addObject("title", "마이 페이지");
-        log.info("1234");
         return mav;
     }
+    
+    /**
+     * 폰넘버 중복 체크
+     * @param email
+     * @return
+     */
+    @GetMapping("/checkPhone/{phonnumber}")
+    public ResponseEntity<Boolean> checkPhone(@PathVariable("phonnumber") String phonnumber) {
+        boolean isAvailable = memberService.isPhoneAvailable(phonnumber);
+        return ResponseEntity.ok(isAvailable);
+    }
 
+    /**
+     * 이메일 중복 체크
+     * @param email
+     * @return
+     */
     @GetMapping("/checkEmail/{email}")
-    public ResponseEntity<Boolean> checkEmail(@PathVariable String email) {
+    public ResponseEntity<Boolean> checkEmail(@PathVariable("email") String email) {
         boolean isAvailable = memberService.isEmailAvailable(email);
-        log.info("1111");
         return ResponseEntity.ok(isAvailable);
     }
 

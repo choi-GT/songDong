@@ -102,14 +102,15 @@
             <label for="username">이름<label>
             <input type="text" id="username" name="username" value='' />
         </div>
+		<div>
+            <label for="email">이메일<label>
+            <input type="text" id="email" name="email" value='' />
+        </div>
         <div>
             <label for="phone">휴대폰 번호<label>
             <input type="text" id="phonnumber" name="phonnumber" value='' />
         </div>
-        <div>
-            <label for="email">이메일<label>
-            <input type="text" id="email" name="email" value='' />
-        </div>
+        
 		<!-- 오류 메시지를 표시할 요소 추가 -->
         <div id="error-message"></div>
         <button type="button" id="btnConfirm">확 인</button>
@@ -127,7 +128,8 @@
             const username = document.querySelector('#username').value?.trim();
             const password = document.querySelector('#password').value?.trim();
             const password2 = document.querySelector('#password2').value?.trim();
-            
+            const phonnumber = document.querySelector('#phonnumber').value?.trim();
+			
             const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
 			 
@@ -163,19 +165,39 @@
                 return false;
             }
 			
-			 //이메일 중복 체크
-	         fetch('/member/checkEmail/' + email)
-	              .then((response) => response.json())
-	               .then((data) => {
-					console.log(data);
-	                   if (!data) {
-	                       errorMessageDiv.textContent = '이미 사용중인 이메일입니다.';
-	                       errorMessageDiv.style.display = 'block'; // 이메일 오류 메시지 표시
-	                   } else {
-	                       // 이메일이 사용 가능한 경우 폼 제출
-	                       document.querySelector('#infoForm').submit();
-	                   }
-	               });
+			// 이메일 중복 체크
+			fetch('/member/checkEmail/' + email)
+			    .then((response) => response.json())
+			    .then((data) => {
+			        console.log(data);
+			        if (!data) {
+			            errorMessageDiv.textContent = '이미 사용중인 이메일입니다.';
+			            errorMessageDiv.style.display = 'block'; // 이메일 오류 메시지 표시
+			        } else {
+			            // 전화번호 중복 체크
+			            return fetch('/member/checkPhone/' + phonnumber); // 전화번호 체크 API 호출
+			        }
+			    })
+			    .then((phoneResponse) => {
+			        if (phoneResponse) {
+			            return phoneResponse.json();
+			        }
+			    })
+			    .then((phoneData) => {
+			        console.log(phoneData);
+			        if (!phoneData) {
+			            errorMessageDiv.textContent = '이미 사용중인 전화번호입니다.';
+			            errorMessageDiv.style.display = 'block'; // 전화번호 오류 메시지 표시
+			        } else {
+			            // 이메일과 전화번호 모두 사용 가능한 경우 폼 제출
+			            document.querySelector('#infoForm').submit();
+			        }
+			    })
+			    .catch((error) => {
+			        console.error('Error:', error);
+			        errorMessageDiv.textContent = '오류가 발생했습니다. 다시 시도해주세요.';
+			        errorMessageDiv.style.display = 'block'; // 일반 오류 메시지 표시
+			    });
 				  
 	       });
 	   </script>      
