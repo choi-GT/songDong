@@ -49,14 +49,14 @@
 	</select>
 	
 	<select id="checkEmail" parameterType="String" resultType="int">
-		SELECT COUNT(*) AS CUT
+		SELECT COUNT(*) AS CNT
 		FROM SEMI.MEMBERSHIP
 		WHERE EMAIL = #{email}
 			AND ISUSE = 1
 	</select>
 	
 	<select id="checkPhone" parameterType="String" resultType="int">
-		SELECT COUNT(*) AS CUT
+		SELECT COUNT(*) AS CNT
 		FROM SEMI.MEMBERSHIP
 		WHERE PHONENUMBER = #{phoneNumber}
 			AND ISUSE = 1

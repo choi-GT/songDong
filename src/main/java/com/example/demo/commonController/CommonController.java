@@ -158,6 +158,14 @@ public class CommonController {
         boolean isAvailable = memberService.isPhoneAvailable(phoneNumber);
         return ResponseEntity.ok(isAvailable);
     }
+    
+//    @GetMapping("/checkPhone/{phoneNumber}")
+//    public ResponseEntity<?> checkPhone(
+//    		@PathVariable(value = "phoneNumber") String phoneNumber
+//    		) {
+//        HashMap<String, Object> isAvailable = memberService.checkPhoneNumber(phoneNumber);
+//        return ResponseEntity.ok(isAvailable);
+//    }
 
     /**
 	 * 비동기 통신 아이디 중복 확인

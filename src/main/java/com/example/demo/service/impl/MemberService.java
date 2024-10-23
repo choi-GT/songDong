@@ -91,7 +91,6 @@ public class MemberService implements CrudService<MemberShipVO> {
 	
 	public HashMap<String, Object> checkUserID(String userID) {
 		int cnt = mapper.checkUserID(userID);
-		// 리턴해야하는 객체가 단순한 숫자 연산의 결과타입이면 번거롭게 VO를 생성하지 말고 hashMap을 쓰면 편리하다
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("isExist", cnt == 0? false: true);
 		return map;
@@ -99,7 +98,13 @@ public class MemberService implements CrudService<MemberShipVO> {
 	
 	public HashMap<String, Object> checkEmail(String email) {
 		int cnt = mapper.checkEmail(email);
-		// 리턴해야하는 객체가 단순한 숫자 연산의 결과타입이면 번거롭게 VO를 생성하지 말고 hashMap을 쓰면 편리하다
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("isExist", cnt == 0? false: true);
+		return map;
+	}
+	
+	public HashMap<String, Object> checkPhoneNumber(String phoneNumber) {
+		int cnt = mapper.checkPhone(phoneNumber);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("isExist", cnt == 0? false: true);
 		return map;
