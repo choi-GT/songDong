@@ -8,4 +8,14 @@
         WHERE TRDSTATENM != '폐업'
         ORDER BY BPLCNM      
     </select>
+    
+    <insert id="insertFavoriteStore" parameterType="java.util.HashMap">
+    	INSERT INTO SEMI.FAVORITE_STORES (
+			STORE_NAME
+			, USERIDX
+			) VALUES (
+				#{storeName}
+				, #{userIDX}  
+			)
+    </insert>
 </mapper>

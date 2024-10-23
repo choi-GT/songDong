@@ -15,10 +15,10 @@
 		<button onclick="location.href='/member/storeList'">성동구 빵 목록</button>
         <ul id="searchResults"></ul>
 
-        <h2>즐겨찾기 목록</h2>
+        <h2>즐겨찾기 목록</h2>  
         <div id="favoriteSection">
             <input type="text" id="storeId" placeholder="가게 ID" readonly />
-            <button id="addFavoriteBtn" onclick="addFavorite()">즐겨찾기 추가</button>
+            <button id="addFavoriteBtn" th:onclick="addFavorite()">즐겨찾기 추가</button>
 			<button onclick="location.href='/member/favoriteList'">전체 즐겨찾기 리스트</button>
             <ul id="favoriteList"></ul>
         </div>

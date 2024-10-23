@@ -1,10 +1,10 @@
-let storeIds = JSON.parse(localStorage.getItem("favoriteStores")) || [];
+let storeIds = [];
 const API_KEY = "78a4b456e0a19ac893591fb5dc67d523"; // JavaScript key
 let selectedStore;
 let map; // 전역 변수로 지도 저장
 
 // 카카오 맵 로드 및 초기화
-kakao.maps.load(() => {
+kakao.maps.load(() => {  
     initMap();	
     updateFavoriteList();
 });
@@ -100,11 +100,11 @@ function showLocation(address, placeUrl) {
 }
 
 // 즐겨찾기 추가
-async function addFavorite() {
+async function addFavorite(userId) {
     if (selectedStore && !storeIds.includes(selectedStore)) {
         storeIds.push(selectedStore);
-        localStorage.setItem("favoriteStores", JSON.stringify(storeIds));
-        await saveFavoriteToDB(selectedStore); // DB에 저장
+        //localStorage.setItem("favoriteStores", JSON.stringify(storeIds));
+        await saveFavoriteToDB(selectedStore, userId); // DB에 저장
         updateFavoriteList();
         alert(`${selectedStore} 가 즐겨찾기 목록에 추가되었습니다.`);
     } else if (storeIds.includes(selectedStore)) {
@@ -117,10 +117,10 @@ async function addFavorite() {
 // DB에 즐겨찾기 저장
 async function saveFavoriteToDB(storeName) {
     try {
-        await fetch('http://192.168.30.10:8080/api/favorites', {
+        await fetch('/api/favorites', {
             method: 'POST',
             headers: {
-                'Content-Type': 'text/plain', // 텍스트로 전송
+                'Content-Type': 'application/json', // 텍스트로 전송
             },
             body: storeName, // storeName만 전송
         });
@@ -158,7 +158,7 @@ async function removeFavorite(storeId) {
     if (index > -1) {
         // 로컬 저장소에서 제거
         storeIds.splice(index, 1);
-        localStorage.setItem("favoriteStores", JSON.stringify(storeIds));
+        //localStorage.setItem("favoriteStores", JSON.stringify(storeIds));
 
         // DB에서 제거 요청
         await deleteFavoriteFromDB(storeId);
