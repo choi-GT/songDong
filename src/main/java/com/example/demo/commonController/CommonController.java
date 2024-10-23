@@ -217,6 +217,7 @@ public class CommonController {
             mav.setViewName("redirect:/member/login");
         } else {
             // 로그인되어 있으면 즐겨찾기 페이지로 이동
+        	mav.addObject("userIdx", memberShipVO.getIdx());
             mav.setViewName("common/findOften");
             mav.addObject("title", "즐겨찾기 페이지");
             mav.addObject("shopName", shopName);
