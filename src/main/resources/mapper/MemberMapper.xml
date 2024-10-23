@@ -70,9 +70,15 @@
 	</select>
 	
 	<select id="findPW" parameterType="String" resultType="Long">
-		SELECT idx FROM MEMBER
+		SELECT idx FROM SEMI.MEMBERSHIP
 		WHERE email = #{email} AND userID = #{userID}
 	</select>
+	
+	<update id="updatePW" parameterType="com.example.demo.vo.MemberShipVO">
+		UPDATE SEMI.MEMBERSHIP SET
+			password = STANDARD_HASH(#{password}, 'SHA256')
+		WHERE idx = #{idx}
+	</update>
 	
 	<update id="memberDrop" parameterType="com.example.demo.vo.MemberShipVO">
 	    UPDATE SEMI.MEMBERSHIP SET 
