@@ -79,7 +79,7 @@
 					, EMAIL 	= #{email}
 				</if>
 				<if test="phonnumber != '' and !phonnumber.equals('')">
-					, PHONNUMBER = #{phonnumber}
+					, PHONENUMBER = #{phonnumber}
 				</if>
 			</set>
 		WHERE idx = #{idx}
