@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.payload.request.JoinRequest;
+import com.example.demo.service.ConnectionInfoService;
 import com.example.demo.service.StoreService2;
 import com.example.demo.service.impl.MemberService;
+import com.example.demo.vo.ConnectionInfoVO;
 import com.example.demo.vo.MemberShipVO;
+
 import com.example.demo.vo.StoreInfoVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +42,9 @@ public class CommonController {
 
     @Autowired
     private StoreService2 storeService;
+    
+	@Autowired
+	private ConnectionInfoService connectionInfoService;
 
     @GetMapping("/storeList")
     public String showStoreList(Model model) {
@@ -70,7 +76,22 @@ public class CommonController {
             log.info("로그인 성공");
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", result);
-            mav.setViewName("redirect:/");
+            
+			ConnectionInfoVO connectionInfoVO = new ConnectionInfoVO();
+			
+			// 로그인 아이디가 아니라 해당 사용자의 pk
+			MemberShipVO vo = (MemberShipVO)session.getAttribute("userInfo");
+			Long userID = vo.getIdx();
+			
+			// 접속 기록 저장
+			connectionInfoVO.setUserID(userID);
+			
+			int id = connectionInfoService.insert(connectionInfoVO);
+			
+			
+			log.info("id값은 " + id);
+			
+            mav.setViewName("redirect:/member/findOften");
         } else {
             log.info("로그인 실패");
             mav.setViewName("forward:/member/login");
