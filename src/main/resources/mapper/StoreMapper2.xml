@@ -18,4 +18,10 @@
 				, #{userIDX}  
 			)
     </insert>
+    
+    <select id="getFavoriteStores" resultType="com.example.demo.vo.FavoriteStoreVO">
+    	SELECT * FROM SEMI.FAVORITE_STORES 
+    	WHERE USERIDX = #{userIDX} 
+    </select>
+    
 </mapper>

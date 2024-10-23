@@ -56,5 +56,11 @@ import lombok.extern.slf4j.Slf4j;
 	        }
 	    }
 
+		@Override
+		public List<StoreInfoVO> getFavoriteStores(Long userId) {
+			
+			return storeMapper.getFavoriteStores(userId);
+		}
+
 	}
 

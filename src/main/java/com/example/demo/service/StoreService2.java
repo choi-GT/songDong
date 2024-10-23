@@ -13,5 +13,7 @@ public interface StoreService2 {
 	
 	boolean removeFavoriteStore(String storeName); // 즐겨찾기 삭제 메서드 추가  
 	
+	List<StoreInfoVO> getFavoriteStores(Long userId);
+	
 	
 }

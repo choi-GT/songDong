@@ -1,5 +1,7 @@
 package com.example.demo.commonController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.mapper.StoreMapper2;
 import com.example.demo.service.StoreService;
+import com.example.demo.service.StoreService2;
+import com.example.demo.vo.MemberShipVO;
+import com.example.demo.vo.StoreInfoVO;
 import com.example.demo.vo.StoreVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +31,8 @@ public class ApiController {
 	@Autowired
 	private  StoreService storeService;
 	
+    @Autowired
+    private StoreService2 storeService2;
 
 	 @GetMapping("/getStoreCoords")
 	    public ResponseEntity<?> getStoreCoords(@RequestParam String sitewhladdr) {
@@ -34,6 +44,15 @@ public class ApiController {
 	            return ResponseEntity.status(404).body("Store not found");
 	        }
 	    }
+	 
+	 @GetMapping("/favorite")
+	    public List<StoreInfoVO> getFavoriteStores(HttpServletRequest request) {
+		 	HttpSession session = request.getSession();
+		 	MemberShipVO vo = (MemberShipVO) session.getAttribute("userInfo");
+	        return storeService2.getFavoriteStores(vo.getIdx());
+	    }
+	 
+
 
 	
 	 @GetMapping("/searchShop")

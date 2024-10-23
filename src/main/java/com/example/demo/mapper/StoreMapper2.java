@@ -27,4 +27,6 @@ public interface StoreMapper2 {
     
     @Delete("DELETE FROM SEMI.FAVORITE_STORES WHERE STORE_NAME = #{storeName}")
     void deleteFavoriteStore(String storeName);
+
+	List<StoreInfoVO> getFavoriteStores(Long userId);
 }
