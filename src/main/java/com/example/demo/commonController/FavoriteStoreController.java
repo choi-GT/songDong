@@ -32,7 +32,7 @@ public class FavoriteStoreController {
 //        log.info(String.valueOf(userId));
         boolean success = storeService.saveFavoriteStore(storeName, request); // 즐겨찾기 추가
 //        return success ? ResponseEntity.ok().build() : ResponseEntity.status(500).build();
-    	return null; 
+    	return null;  
     }
 
     @DeleteMapping("/favorites")

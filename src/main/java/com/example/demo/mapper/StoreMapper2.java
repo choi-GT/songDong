@@ -14,7 +14,7 @@ import com.example.demo.vo.StoreInfoVO;
 
 @Mapper
 public interface StoreMapper2 {
-    List<StoreInfoVO> getAllStores();
+    List<StoreInfoVO> getAllStores(); 
     
 //    @Insert("MERGE INTO SEMI.FAVORITE_STORES USING DUAL " +
 //            "ON (STORE_NAME = #{storeName}) " +

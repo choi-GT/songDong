@@ -15,7 +15,7 @@
 			, USERIDX
 			) VALUES (
 				#{storeName}
-				, #{userIDX} 
+				, #{userIDX}  
 			)
     </insert>
 </mapper>
