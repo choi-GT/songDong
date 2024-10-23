@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <html>
 	
 
@@ -49,8 +50,9 @@
 			    </span>
 			    </button>
 			    <div class="dropdown-content">
-					<a href="/member/login">로그인</a>
-					<a href="/member/join">회원가입</a>
+					<a th:if="${userInfo != null}" th:href="@{/member/logout}">로그아웃</a>
+					<a th:unless="${userInfo != null}" th:href="@{/member/login}">로그인</a>
+					<a th:unless="${userInfo != null}" th:href="@{/member/join}">회원가입</a>
 			    	<a href="/member/myPage">마이페이지</a>
 
 				  </div>

@@ -68,8 +68,14 @@ public class CommonController {
         MemberShipVO result = memberService.selectOne(memberShipVO);
         if (result != null) {
             log.info("로그인 성공");
+            
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", result);
+            
+            
+            MemberShipVO v = (MemberShipVO) session.getAttribute("userInfo");
+            log.info(v.toString());
+        	mav.addObject("userInfo", v);
             
             String redirectUrl = (String) session.getAttribute("redirectUrl");
             if (redirectUrl != null) {

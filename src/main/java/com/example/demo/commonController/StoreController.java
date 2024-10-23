@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.StoreService;
+import com.example.demo.vo.MemberShipVO;
 import com.example.demo.vo.StoreVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,10 +34,16 @@ public class StoreController {
 	}
 	
 	@GetMapping("/")
-	public String index(Model model) {
+	public String index(Model model, HttpServletRequest request) {
 //		List<HashMap<String, Object>> list = storeService.getAllStore();
 //		
 //		model.addAttribute("list", list);
+		HttpSession session = request.getSession();
+		MemberShipVO vo = (MemberShipVO) session.getAttribute("userInfo");
+		
+		model.addAttribute("userInfo", vo);
+		
+		
 		return "index";
 	}
 
