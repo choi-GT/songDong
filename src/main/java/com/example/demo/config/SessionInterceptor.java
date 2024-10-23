@@ -26,6 +26,10 @@ public class SessionInterceptor implements HandlerInterceptor{
 	                return true; // 요청을 계속 진행함 (컨트롤러로 넘어감)
 	            }
 	        }
+	        // 4. 리다이렉트 세션 만듬
+	        String requestedUrl = request.getRequestURI();
+	        session = request.getSession(); // 세션이 없으면 새로 생성
+	        session.setAttribute("redirectUrl", requestedUrl);
 
 	        // 3. 세션이 없거나, "userInfo" 속성이 없으면 로그인 페이지로 리다이렉트
 	        response.sendRedirect(request.getContextPath() + "/member/login");

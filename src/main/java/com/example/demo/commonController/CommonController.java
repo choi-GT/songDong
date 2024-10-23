@@ -17,12 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.payload.request.JoinRequest;
-import com.example.demo.service.ConnectionInfoService;
 import com.example.demo.service.StoreService2;
 import com.example.demo.service.impl.MemberService;
-import com.example.demo.vo.ConnectionInfoVO;
 import com.example.demo.vo.MemberShipVO;
-
 import com.example.demo.vo.StoreInfoVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,9 +39,6 @@ public class CommonController {
 
     @Autowired
     private StoreService2 storeService;
-    
-	@Autowired
-	private ConnectionInfoService connectionInfoService;
 
     @GetMapping("/storeList")
     public String showStoreList(Model model) {
@@ -77,22 +71,14 @@ public class CommonController {
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", result);
             
-			ConnectionInfoVO connectionInfoVO = new ConnectionInfoVO();
-			
-			// 로그인 아이디가 아니라 해당 사용자의 pk
-			MemberShipVO vo = (MemberShipVO)session.getAttribute("userInfo");
-			Long userID = vo.getIdx();
-			
-			// 접속 기록 저장
-			connectionInfoVO.setUserID(userID);
-			
-			int id = connectionInfoService.insert(connectionInfoVO);
-			
-			
-			log.info("id값은 " + id);
-			log.info("id값은 " + id);
-			
-            mav.setViewName("redirect:/");
+            String redirectUrl = (String) session.getAttribute("redirectUrl");
+            if (redirectUrl != null) {
+                mav.setViewName("redirect:" + redirectUrl);  // 세션에 저장된 URL로 리다이렉트
+                session.removeAttribute("redirectUrl");  // 리다이렉트 후 세션에서 URL 삭제
+            } else {
+                mav.setViewName("redirect:/");  // 기본 페이지로 리다이렉트
+            }
+        
         } else {
             log.info("로그인 실패");
             mav.setViewName("forward:/member/login");
