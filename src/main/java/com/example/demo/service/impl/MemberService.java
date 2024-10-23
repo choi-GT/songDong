@@ -194,7 +194,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 		// 완료 메시지에 비밀번호를 넣어서 리턴
 		map.put("result", true);
-		map.put("message", "임시 비밀번호는 " + randomPw + "입니다. \n로그인 후 비밀번호를 변경해주세요.");
+		map.put("message", "임시 비밀번호는 " + randomPw + "입니다. 반드시 복사해주세요.");
 		
 		return map;
 	}
