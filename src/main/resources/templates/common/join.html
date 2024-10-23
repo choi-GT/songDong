@@ -103,7 +103,7 @@
           name="username"
           class="username"
           id="username"
-          placeholder="이름을 입력하세요."
+          placeholder="이름을 입력해 주세요."
           onkeyup="noSpace(this), noCharAndNum(this)"
           required
         />
@@ -112,16 +112,16 @@
           name="birth"
           class="birth"
           id="birth"
-          placeholder="생년월일을 입력하세요. (예: 20010203)"
+          placeholder="생년월일을 8자리 입력해 주세요. (예: 20010203)"
           onkeyup="noSpace(this)"
           required
         />
         <input
           type="text"
-          name="pNumber"
-          class="pNumber"
-          id="pNumber"
-          placeholder="휴대폰 번호를 입력하세요. ('-' 포함)"
+          name="phoneNumber"
+          class="phoneNumber"
+          id="phoneNumber"
+          placeholder="휴대폰 번호를 입력해 주세요. ('-' 포함)"
           onkeyup="noSpace(this)"
           required
         />
@@ -130,7 +130,7 @@
           name="email"
           class="email"
           id="email"
-          placeholder="이메일을 입력하세요. (예: user@mail.com)"
+          placeholder="이메일을 입력해 주세요. (예: user@mail.com)"
           onkeyup="noSpace(this)"
           required
         />
@@ -145,8 +145,8 @@
           name="userID"
           class="userID"
           id="userID"
-          placeholder="아이디를 입력하세요."
-          onkeyup="noSpace(this)"
+          placeholder="아이디를 입력해 주세요."
+          onkeyup="noSpace(this), noChar(this)"
           required
         />
         <input
@@ -154,7 +154,7 @@
           name="password"
           class="password"
           id="password"
-          placeholder="비밀번호를 입력하세요."
+          placeholder="비밀번호를 입력해 주세요."
           autocomplete="off"
           onkeyup="noSpace(this)"
           required
@@ -172,7 +172,7 @@
       </div>
       <div class="available hide">* 사용 가능한 아이디입니다.</div>
       <div class="usingId hide">* 사용 중인 아이디입니다.</div>
-      <div class="idEnough hide">* 아이디를 5글자 이상 입력하세요.</div>
+      <div class="idEnough hide">* 아이디는 5글자 이상 입력하세요.(특수문자 불가)</div>
       <div class="pwEnough hide">* 6자리 이상의 비밀번호를 입력하고, 숫자와 영문을 섞어주세요.</div>
       <div class="pwIncorrect hide">* 비밀번호가 일치하지 않습니다.</div>
       <button id="join">가입하기</button>
@@ -180,19 +180,22 @@
 		  <a href="/member/login">로그인</a>
 		</div>
     </form>
-    <script>
-      const birth = document.querySelector("#birth");
-      const number = document.querySelector("#pNumber");
-      const email = document.querySelector("#email");
+    <script th:inline="javascript">
+      const name = document.querySelector("#username").value?.trim();
+	  const birth = document.querySelector("#birth").value?.trim();
+      const number = document.querySelector("#phoneNumber").value?.trim();
+      const email = document.querySelector("#email").value?.trim();
 
       const rightBirth = document.querySelector(".rightBirth");
       const rightNumber = document.querySelector(".rightNumber");
       const rightEmail = document.querySelector(".rightEmail");
 
-      const newId = document.querySelector("#userID");
-      const newPw = document.querySelector("#password");
-      const newPw2 = document.querySelector("#password2");
+      const userID = document.querySelector("#userID").value?.trim();
+      const newPw = document.querySelector("#password").value?.trim();
+      const newPw2 = document.querySelector("#password2").value?.trim();
       
+	  const available = document.querySelector(".available");
+	  const usingId = document.querySelector(".usingId");
       const idEnough = document.querySelector(".idEnough");
       const pwEnough = document.querySelector(".pwEnough");
       const pwIncorrect = document.querySelector(".pwIncorrect");
@@ -206,11 +209,21 @@
           return false;
         }
       }
+	  
+	  // input에 입력 시 특수문자 입력 못하게 제한(아이디 입력 시)
+	  function noChar(obj) {
+		let strChar = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+        if (strChar.exec(obj.value)) {
+          obj.focus;
+          obj.value = obj.value.replace(/[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi, '');
+          return false;
+        }
+	  }
 
       // input에 입력 시 특수문자나 숫자 입력 못하게 제한(이름 입력 시)
       function noCharAndNum(obj) {
-        let strChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
-        if (strChar.exec(obj.value)) {
+        let strCharNum = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
+        if (strCharNum.exec(obj.value)) {
           obj.focus;
           obj.value = obj.value.replace(/[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi, '');
           return false;
@@ -219,17 +232,16 @@
 
       // 생년월일을 형식에 맞게 입력했는지 확인
       birth.onchange = function() {
-        let birthday = birth.value;
         // 입력받은 8자에서 끊어가며 년, 월, 일 구분
-        let year = Number(birthday.substr(0, 4));
-        let month = Number(birthday.substr(4, 2));
-        let day = Number(birthday.substr(6, 2));
+        let year = Number(birth.substr(0, 4));
+        let month = Number(birth.substr(4, 2));
+        let day = Number(birth.substr(6, 2));
 
         let today = new Date();
         let yearNow = today.getFullYear();
 
         // 생년월일을 8자 맞게 입력했는지 확인
-        if (birthday.length === 8) {
+        if (birth.length === 8) {
           if (1900 > year || year > yearNow) {
             // 1900년도 이하 또는 현재 년도 이상으로 입력 시 오류 메시지 표시
             rightBirth.classList.remove('hide');
@@ -267,7 +279,7 @@
             // 모두 맞게 입력했을 시 오류 메시지 숨김
             rightBirth.classList.add('hide');
           }
-        } else if (birthday.length !== 0 && (birthday.length > 8 || birthday.length < 8)) {
+        } else if (birth.length !== 0 && (birth.length > 8 || birth.length < 8)) {
           // 형식에 맞는 8개의 숫자를 입력하지 않을 시 오류 메시지 표시
           rightBirth.classList.remove('hide');
         } else {
@@ -283,8 +295,8 @@
 
       // 휴대폰 번호 입력 시 적용되는 내용
       number.onchange = function() {
-        if (number.value.length !== 0) {
-          if (rightNum(number.value) === true) {
+        if (number.length !== 0) {
+          if (rightNum(number) === true) {
             // 형식에 맞게 입력할 경우 오류 메시지 숨김
             rightNumber.classList.add('hide');
           } else {
@@ -301,25 +313,14 @@
 
       // 이메일 입력 시 적용되는 내용
       email.onchange = function() {
-        if (email.value.length !== 0) {
-          if (rightMail(email.value) === true) {
+        if (email.length !== 0) {
+          if (rightMail(email) === true) {
             // 형식에 맞게 입력할 경우 오류 메시지 숨김
             rightEmail.classList.add('hide');
           } else {
             // 형식에 맞지 않게 입력할 경우 오류 메시지 표시
             rightEmail.classList.remove('hide');
           }
-        }
-      }
-
-      // 아이디 입력 시 적용되는 내용
-      newId.onkeyup = function() {
-        if (newId.value.length < 5) {
-          // 5자 미만으로 적은 경우 오류 메시지 표시
-          idEnough.classList.remove('hide');
-        } else {
-          // 5자 이상 적은 경우 오류 메시지 숨김
-          idEnough.classList.add('hide');
         }
       }
       
@@ -335,8 +336,8 @@
 
       // 비밀번호 입력 시 적용되는 내용
       newPw.onchange = function() {
-        if (newPw.value.length !== 0) {
-          if (pwCheck(newPw.value) === true) {
+        if (newPw.length !== 0) {
+          if (pwCheck(newPw) === true) {
             // 비밀번호를 입력하고 조건에 맞을 때 오류 메시지 숨김
             pwEnough.classList.add('hide');
           } else {
@@ -349,8 +350,8 @@
       }
       // 비밀번호 확인 입력 시 적용되는 내용
       newPw2.onkeyup = function() {
-        if (newPw2.value.length !== 0) {
-          if (passwordCheck(newPw.value, newPw2.value) === true) {
+        if (newPw2.length !== 0) {
+          if (passwordCheck(newPw, newPw2) === true) {
             // 비밀번호 확인이 일치하면 오류 메시지 숨김
             pwIncorrect.classList.add('hide');
           } else {
@@ -362,26 +363,84 @@
         }
       }
 	  
+	  // 아이디 중복 체크 여부 변수
+	  let idCheck = false;
+	  let idDup = false;
+	
+	  const userIdCheck = document.querySelector('#userID');
+	  // 아이디 중복 체크
+	  userIdCheck.addEventListener('change', function(e){
+		idCheck = false;
+		idDup = false;
+		
+		fetch('/member/checkUserID/' + userID)
+		.then((response) => response.json())
+		.then((data) => {
+			const isExist = data.isExist;
+			idCheck = true;
+			idDup = isExist;
+			if(userID.length > 4 && isExist) {
+				available.classList.add('hide');
+				usingId.classList.remove('hide');
+				idEnough.classList.add('hide');
+			} else if(userID.length < 5) {
+				available.classList.add('hide');
+				usingId.classList.add('hide');
+				idEnough.classList.remove('hide');
+			} else {
+				available.classList.remove('hide');
+				usingId.classList.add('hide');
+				idEnough.classList.add('hide');
+			}
+		});
+	  });
+
+	  // 이메일 중복 체크 여부 변수
+	  let emailCheck = false;
+	  let emailDup = false;
+	
+	  const userEmailCheck = document.querySelector('#email');
+	
+	  // 이메일 중복 체크
+	  userEmailCheck.addEventListener('click', function(e){
+		emailCheck = false;
+		emailDup = false;
+		const email = document.querySelector('#email').value?.trim(); // ?전까지 실행하고 true일 경우 trim 실행
+		
+		fetch('/member/checkUserEmail/' + userID)
+		.then((response) => response.json())
+		.then((data) => {
+			const isExist = data.isExist;
+			emailCheck = true;
+			emailDup = isExist;
+			if (isExist) {
+				alert('이미 사용중인 이메일입니다.');
+				document.querySelector('#email').focus();
+			} else {
+				alert('사용 가능한 이메일입니다.');
+			}
+		});
+	  });
+	  
+	  // 회원가입 전 최종확인
 	  const btnJoin = document.querySelector('#join');
   		btnJoin.addEventListener('click', function(e) {
   			const username = document.querySelector('#username').value?.trim();
-  			const password = document.querySelector('#password').value?.trim();
-  			const password2 = document.querySelector('#password2').value?.trim();
   			
   			if (username.length < 2) {
   				document.querySelector('#username').focus();
   				return;
   			}
-  			if (password.length < 6) {
+  			if (newPw1.length < 6) {
   				document.querySelector('#password').focus();
   				return;
   			}
-  			if (password != password2) {
-  				document.querySelector('#password').focus();
+  			if (newPw1 != newPw2) {
+  				document.querySelector('#password2').focus();
   				return;
   			}
-  			if (password.length >= 6 && password2.length >= 6
-  				&& password === password2 && idCheck && idDup
+  			if (newPw1.length >= 6 && newPw2.length >= 6
+  				&& newPw1 === newPw2 && idCheck && idDup
   				&& emailCheck && emailDup) {
   				alert('가입처리 완료');
   			const data = {

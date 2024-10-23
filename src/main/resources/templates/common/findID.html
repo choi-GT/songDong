@@ -97,7 +97,7 @@
         <a href="/member/findPW">비밀번호 찾기</a>
       </div>
     </form>
-	<script>
+	<script th:inline="javascript">
 		document.querySelector('#findIdForm').addEventListener('submit', function(e) {
 			e.preventDefault();
 			const email = document.querySelector('#email').value?.trim();

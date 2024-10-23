@@ -55,6 +55,13 @@
 			AND ISUSE = 1
 	</select>
 	
+	<select id="findID" parameterType="String" resultType="String">
+		SELECT
+			SUBSTR(userID, 1, 2) || LPAD('*', LENGTH(userID) - 2, '*') AS userID
+		FROM SEMI.MEMBERSHIP
+			WHERE email = #{email}
+	</select>
+	
 	<update id="memberDrop" parameterType="com.example.demo.vo.MemberShipVO">
 	    UPDATE SEMI.MEMBERSHIP SET 
 	        ISUSE = 0,

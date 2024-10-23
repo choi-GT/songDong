@@ -19,14 +19,14 @@ public class MemberShipVO {
 	private String password;
 	private String username;
 	private String email;
-	private String phonnumber;
+	private String phoneNumber;
 	private LocalDateTime regDate;
 	private int isUse;
 	private LocalDateTime dropDate;
 	
 	@Builder
 	public MemberShipVO(Long idx, Long isAdmin, String userID, String password, String username, String email,
-			String phonnumber, LocalDateTime regDate, int isUse, LocalDateTime dropDate) {
+			String phoneNumber, LocalDateTime regDate, int isUse, LocalDateTime dropDate) {
 		
 		this.idx = idx;
 		this.isAdmin = isAdmin;
@@ -34,7 +34,7 @@ public class MemberShipVO {
 		this.password = password;
 		this.username = username;
 		this.email = email;
-		this.phonnumber = phonnumber;
+		this.phoneNumber = phoneNumber;
 		this.regDate = regDate;
 		this.isUse = isUse;
 		this.dropDate = dropDate;
