@@ -54,6 +54,7 @@
     border: none;
     font-size: 15px;
     font-weight: 700;
+	cursor: pointer;
 }
 .name {
     font-size: 25px;
