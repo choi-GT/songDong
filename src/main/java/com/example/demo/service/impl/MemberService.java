@@ -124,7 +124,6 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 		if (idExist) {
 			map.put("result", false);
-			map.put("message", "아이디가 사용중입니다.");
 			return map;
 		}
 		// 2. 이메일 중복 체크
@@ -133,7 +132,6 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 		if (emailExist) {
 			map.put("result", false);
-			map.put("message", "이메일이 사용중입니다.");
 			return map;
 		}
 		// 3. 비밀번호
@@ -146,6 +144,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 				.userID(joinRequest.getUserID())
 				.password(pw)
 				.username(username)
+				.phoneNumber(joinRequest.getPhoneNumber())
 				.build();
 		
 		this.insert(memberShipVO);

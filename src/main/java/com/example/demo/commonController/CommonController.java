@@ -57,7 +57,6 @@ public class CommonController {
             @RequestParam(value = "password", required = false, defaultValue = "") String password) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("common/login");
-        mav.addObject("title", "로그인 페이지");
         mav.addObject("userID", userID);
         mav.addObject("password", password);
         return mav;
@@ -117,8 +116,9 @@ public class CommonController {
 	 * @param memberVO
 	 */
 	@PostMapping("/joinProc")
-	public void joinProc(@ModelAttribute MemberShipVO memberShipVO) {
+	public String joinProc(@ModelAttribute MemberShipVO memberShipVO) {
 		memberService.insert(memberShipVO);
+		return "redirect:/member/login";
 	}
 	
 	/**
@@ -154,19 +154,19 @@ public class CommonController {
      * @param email
      * @return
      */
-    @GetMapping("/checkPhone/{phoneNumber}")
-    public ResponseEntity<Boolean> checkPhone(@PathVariable("phoneNumber") String phoneNumber) {
-        boolean isAvailable = memberService.isPhoneAvailable(phoneNumber);
-        return ResponseEntity.ok(isAvailable);
-    }
-    
 //    @GetMapping("/checkPhone/{phoneNumber}")
-//    public ResponseEntity<?> checkPhone(
-//    		@PathVariable(value = "phoneNumber") String phoneNumber
-//    		) {
-//        HashMap<String, Object> isAvailable = memberService.checkPhoneNumber(phoneNumber);
+//    public ResponseEntity<Boolean> checkPhone(@PathVariable("phoneNumber") String phoneNumber) {
+//        boolean isAvailable = memberService.isPhoneAvailable(phoneNumber);
 //        return ResponseEntity.ok(isAvailable);
 //    }
+    
+    @GetMapping("/checkPhone/{phoneNumber}")
+    public ResponseEntity<?> checkPhone(
+    		@PathVariable(value = "phoneNumber") String phoneNumber
+    		) {
+        HashMap<String, Object> isAvailable = memberService.checkPhoneNumber(phoneNumber);
+        return ResponseEntity.ok(isAvailable);
+    }
 
     /**
 	 * 비동기 통신 아이디 중복 확인

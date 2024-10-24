@@ -185,7 +185,7 @@
       <div class="idEnough hide">* 아이디는 5글자 이상 입력하세요.(특수문자 불가)</div>
       <div class="pwEnough hide">* 6자리 이상의 비밀번호를 입력하고, 숫자와 영문을 섞어주세요.</div>
       <div class="pwIncorrect hide">* 비밀번호가 일치하지 않습니다.</div>
-      <button id="join">가입하기</button>
+      <button type="button" id="join">가입하기</button>
 		<div class="login">
 		  <a href="/member/login">로그인</a>
 		</div>
@@ -405,6 +405,7 @@
 				rightNumber.classList.remove('hide');
   				usingNumber.classList.add('hide');
   			} else {
+				phoneNumErr.classList.remove('error');
 				rightNumber.classList.add('hide');
   				usingNumber.classList.add('hide');
   			}
@@ -504,6 +505,7 @@
 			const password = document.querySelector('#password').value?.trim();
 			const password2 = document.querySelector('#password2').value?.trim();
   			
+			// 잘못 입력한 input칸 표시
   			if (username.length < 2) {
   				name.classList.add('error');
   				return;
@@ -517,8 +519,9 @@
   				return;
   			}
   			if (password.length >= 6 && password2.length >= 6
-  				&& password === password2 && idCheck && idDup
-  				&& emailCheck && emailDup && birth.value.length == 8) {
+  				&& password === password2 && idCheck && !idDup
+				&& numberCheck && numberDup
+  				&& emailCheck && !emailDup && birth.value.length == 8) {
   				alert('가입처리 완료');
 	  			const data = {
 	  				method: 'post',
@@ -529,24 +532,22 @@
 	  					userID: document.querySelector('#userID').value?.trim(),
 	  					password: document.querySelector('#password').value?.trim(),
 	  					password2: document.querySelector('#password2').value?.trim(),
+						phoneNumber: document.querySelector('#phoneNumber').value?.trim(),
 	  					email: document.querySelector('#email').value.trim(),
 	  					username: document.querySelector('#username').value.trim()
 	  				}),
 	  			}
-	  			
 	  			fetch('/member/joinProc2', data)
 	  				.then((response) => response.json())
 	  				.then((data) => {
 	  					console.log(data);
 	  					const {result, message} = data;
-	  					alert(message);
 	  					if (result) {
 	  						window.location.href = '/member/login';
 	  					}
 	  				});
   			} else {
   				alert('회원가입 양식을 확인하세요.');
-  				return;
   			}
   		});
     </script>

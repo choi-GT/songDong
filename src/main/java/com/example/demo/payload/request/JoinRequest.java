@@ -11,6 +11,7 @@ public class JoinRequest {
 	private String userID;
 	private String password;
 	private String password2;
+	private String phoneNumber;
 	private String username;
 	private String email;
 }
