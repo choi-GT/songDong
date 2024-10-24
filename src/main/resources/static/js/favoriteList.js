@@ -18,7 +18,14 @@ async function updateGlobalFavoriteList() {
         favorites.forEach((store) => {
 			console.log(store)
             const li = document.createElement("li");
-            li.textContent = `${store.STORENAME} (즐겨찾기된 수: ${store.STORECOUNT})`; // 사용자 ID도 함께 표시
+            li.textContent = `${store.STORENAME} (즐겨찾기한 회원: ${store.STORECOUNT}명)`; // 즐겨찾기된 수도 같이 표시
+			
+			// 항목 클릭 시 가게 이름을 URL 매개변수로 추가하고 이동
+			li.onclick = () => {
+			    const storeName = encodeURIComponent(store.STORENAME);
+			    window.location.href = `/member/findOften?storeName=${storeName}`; // findOften.html로 이동
+			};
+			
             globalFavoriteList.appendChild(li);
         });
     } catch (error) {
