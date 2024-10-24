@@ -372,11 +372,13 @@
         }
       }
 	  
+	  // 휴대폰 번호 입력 시 적용되는 내용
 	  phoneNum.onchange = function() {
 		if (rightNum(phoneNum.value) === true) {
+			// 번호 양식대로 적으면 오류 메시지 숨김
 			phoneNum.classList.remove('error');
 			rightNumber.classList.add('hide');
-		} else {
+		} else {arguments// 번호 양식대로 적지 않으면 오류 메시지 표시
 			phoneNum.classList.add('error');
 			rightNumber.classList.remove('hide');
 		}
@@ -488,6 +490,7 @@
   				pw2.classList.add('error');
   				return;
   			}
+			// 모든 조건에 맞게 기입하고 가입하기 버튼을 누른 경우
   			if (password.length >= 6 && password2.length >= 6
   				&& password === password2 && idCheck && !idDup
 				&& rightNum(phoneNum.value) === true
@@ -513,6 +516,7 @@
 	  					console.log(data);
 	  					const {result, message} = data;
 	  					if (result) {
+							// 회원가입이 성공적으로 진행되면 로그인 화면으로 이동
 	  						window.location.href = '/member/login';
 	  					}
 	  				});
