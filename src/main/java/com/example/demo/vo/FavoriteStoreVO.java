@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class FavoriteStoreVO {
     private String storeName;
-    private int count; // 기본값 0으로 설정할 수 있음
+    private String userId;
+    private Long userIdx;
 
 }

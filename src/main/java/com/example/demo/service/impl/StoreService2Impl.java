@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.StoreMapper2;
 import com.example.demo.service.StoreService2;
+import com.example.demo.vo.FavoriteStoreVO;
 import com.example.demo.vo.MemberShipVO;
 import com.example.demo.vo.StoreInfoVO;
 
@@ -57,9 +59,13 @@ import lombok.extern.slf4j.Slf4j;
 
 		@Override
 		public List<StoreInfoVO> getFavoriteStores(Long userId) {
-			
 			return storeMapper.getFavoriteStores(userId);
 		}
+		
+	    @Override
+	    public List<HashMap<String, Object>> getAllFavoriteStores() {
+	        return storeMapper.favoriteCount();
+	    }
 
 	}
 

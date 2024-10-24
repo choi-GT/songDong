@@ -64,6 +64,12 @@ public class ApiController {
 			return ResponseEntity.ok("11");
 	        
 	    }
+	 
+	 @GetMapping("/allFavorites")
+	 public List<?> getAllFavoriteStores() {
+	     return storeService2.getAllFavoriteStores(); // 모든 즐겨찾기 가져오는 메서드 호출
+	 }
+
 
 
 

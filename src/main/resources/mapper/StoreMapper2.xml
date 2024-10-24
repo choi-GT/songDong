@@ -9,6 +9,11 @@
         ORDER BY BPLCNM      
     </select>
     
+    <select id="getAllFavoriteStores" resultType="com.example.demo.vo.FavoriteStoreVO">
+        SELECT A.store_name, b.userid FROM SEMI.FAVORITE_STORES A
+        inner join SEMI.MEMBERSHIP b on a.useridx = b.idx
+    </select>
+    
     <insert id="insertFavoriteStore" parameterType="java.util.HashMap">
     	INSERT INTO SEMI.FAVORITE_STORES (
 			STORE_NAME
@@ -28,5 +33,12 @@
     	DELETE FROM SEMI.FAVORITE_STORES 
     	WHERE STORE_NAME = #{storeName} and USERIDX = #{userIDX}
     </delete>
+    
+    <select id="favoriteCount" resultType="java.util.HashMap">
+    SELECT fs.STORE_NAME as storeName, count(fs.STORE_NAME) storeCount FROM SEMI.FAVORITE_STORES fs GROUP BY fs.STORE_NAME
+    ORDER BY storeCount DESC, storeName ASC
+    </select>
+    
+    
     
 </mapper>
