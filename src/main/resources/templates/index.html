@@ -5,6 +5,7 @@
 
   <head>
     <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
 
 	<link th:href="@{/css/kakaoapi.css}" rel="stylesheet" />
 	<link th:href="@{/css/nevibar.css}" rel="stylesheet" />
@@ -87,37 +88,69 @@
 			    	<a href="/member/myPage">마이페이지</a>
 
 				  </div>
+				  <div class="dropdown3"> <!-- 새로운 드롭다운 -->
+				              <button class="dropbtn">
+				                  <span class="dropbtn_icon">
+				                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="menu3" viewBox="0 0 16 16">
+				                          <path fill-rule="evenodd" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm0 1a7 7 0 0 0-4.898 12.036l4.615-4.615A1 1 0 1 1 9.4 8.4l-5.368 5.368A7 7 0 0 0 8 1z"/>
+				                      </svg>
+				                      <i class="menu3"></i>
+				                  </span>
+				              </button>
+				              <div class="dropdown3-content"> 
+								<a th:if="${userInfo != null}" th:href="@{/member/logout}">로그아웃</a>
+								<a th:unless="${userInfo != null}" th:href="@{/member/login}">로그인</a>
+								<a th:unless="${userInfo != null}" th:href="@{/member/join}">회원가입</a>
+								<a href="/member/myPage">마이페이지</a>
+								<a href="/member/storeList">즐겨찾기</a>
+								<a href="#">검색 히스토리</a>
+				              </div>
+				          </div>
 			    </div>
+				
 		    </nav>
 		  </body>
 		</html>
     </nav>
 	<script>
-	   // 첫 번째 드롭다운 열기/닫기
-	   document.querySelector('.dropdown .dropbtn').addEventListener('click', function() {
-	     var dropdownContent = document.querySelector('.dropdown .dropdown-content');
-	     dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-	     
-	     // 다른 드롭다운은 닫기
-	     document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
-	   });
+		// 첫 번째 드롭다운 열기/닫기
+		document.querySelector('.dropdown .dropbtn').addEventListener('click', function() {
+		    var dropdownContent = document.querySelector('.dropdown .dropdown-content');
+		    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
 
-	   // 두 번째 드롭다운 열기/닫기
-	   document.querySelector('.dropdown2 .dropbtn').addEventListener('click', function() {
-	     var dropdownContent2 = document.querySelector('.dropdown2 .dropdown2-content');
-	     dropdownContent2.style.display = dropdownContent2.style.display === 'block' ? 'none' : 'block';
-	     
-	     // 다른 드롭다운은 닫기
-	     document.querySelector('.dropdown .dropdown-content').style.display = 'none';
-	   });
+		    // 다른 드롭다운은 닫기
+		    document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
+		    document.querySelector('.dropdown3 .dropdown3-content').style.display = 'none'; // 추가
+		});
 
-	   // 페이지의 다른 곳을 클릭하면 드롭다운 닫기
-	   window.addEventListener('click', function(event) {
-	     if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown') && !event.target.closest('.dropdown2')) {
-	       document.querySelector('.dropdown .dropdown-content').style.display = 'none';
-	       document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
-	     }
-	   });
+		// 두 번째 드롭다운 열기/닫기
+		document.querySelector('.dropdown2 .dropbtn').addEventListener('click', function() {
+		    var dropdownContent2 = document.querySelector('.dropdown2 .dropdown2-content');
+		    dropdownContent2.style.display = dropdownContent2.style.display === 'block' ? 'none' : 'block';
+
+		    // 다른 드롭다운은 닫기
+		    document.querySelector('.dropdown .dropdown-content').style.display = 'none';
+		    document.querySelector('.dropdown3 .dropdown3-content').style.display = 'none'; // 추가
+		});
+
+		// 세 번째 드롭다운 열기/닫기
+		document.querySelector('.dropdown3 .dropbtn').addEventListener('click', function() {
+		    var dropdownContent3 = document.querySelector('.dropdown3 .dropdown3-content');
+		    dropdownContent3.style.display = dropdownContent3.style.display === 'block' ? 'none' : 'block';
+
+		    // 다른 드롭다운은 닫기
+		    document.querySelector('.dropdown .dropdown-content').style.display = 'none';
+		    document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
+		});
+
+		// 페이지의 다른 곳을 클릭하면 드롭다운 닫기
+		window.addEventListener('click', function(event) {
+		    if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown') && !event.target.closest('.dropdown2') && !event.target.closest('.dropdown3')) {
+		        document.querySelector('.dropdown .dropdown-content').style.display = 'none';
+		        document.querySelector('.dropdown2 .dropdown2-content').style.display = 'none';
+		        document.querySelector('.dropdown3 .dropdown3-content').style.display = 'none'; // 추가
+		    }
+		});
 	 </script>
 
     <div class="map_wrap">
