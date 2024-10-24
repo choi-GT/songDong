@@ -20,6 +20,7 @@ body {
   z-index: 1000; /* 네비바가 지도 위에 표시되도록 z-index 설정 */
   padding: 10px 20px;
   width: 90%;
+  flex-wrap: wrap;
 }
 body {
   margin: 0;
@@ -117,22 +118,11 @@ button.dropbtn{
     width: auto;
     padding-left: 25px;
     padding-right: 25px;
+	
   }
-  .navbar__menu {
-    position: fixed;
-    left: -100%;
-    top: 80px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    background-color: rgba(91, 172, 141, 0.8);
-    transition: all 0.5s;
-  }
-  .hamburger {
-    display: block;
-  }
-  .nav-menu.active {
-    left: 0;
-  }
+.menu1, .menu2{
+	flex-wrap: wrap;
+	cursor: pointer;
+}
+
 }
