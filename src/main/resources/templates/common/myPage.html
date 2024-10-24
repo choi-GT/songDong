@@ -112,6 +112,9 @@
         <nav class="nav-bar">
           <a href="#" class="nav-branding">마이 페이지</a>
           <ul class="nav-menu" id="nav-menu">
+			<li class="nav-item">
+              <a href="/" class="nav-link">홈</a>
+            </li>
             <li class="nav-item">
               <a href="/member/favoriteList" class="nav-link">검색히스토리</a>
             </li>
@@ -125,7 +128,11 @@
               <a href="/member/memberDrop" class="nav-link" onclick="confirmDelete()"
                 >회원탈퇴</a
               >
-            </li>
+            </li>			  
+			<li class="nav-item">
+		      <a href="/member/logout" class="nav-link">로그아웃</a>
+			</li>
+
           </ul>
           <div class="hamburger" id="hamburger">
             <span class="bar"></span>
@@ -175,8 +182,8 @@
 
       // 주소를 입력하여 좌표를 검색합니다
       searchAddressToCoordinates("서울특별시 성동구 송정동 66-259번지");
-
-      // 햄버거 메뉴 기능
+	  
+	  // 햄버거 메뉴 기능
       const hamburger = document.querySelector("#hamburger");
       const navMenu = document.querySelector("#nav-menu");
       hamburger.addEventListener("click", () => {
