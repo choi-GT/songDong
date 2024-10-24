@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -62,6 +63,7 @@
         margin-bottom: 10px;
 		font-weight: bold;
 		font-size: 15px;
+		cursor: pointer;
     }
 	#btnDelete {
 		background-color:coral;
@@ -78,6 +80,16 @@
 	#error-message {
 		text-indent: 10px;
 	}
+	
+	/* 버튼을 같은 선상에 두기 위한 스타일 추가 */
+    .button-container {
+        display: flex;
+        justify-content: space-between; /* 버튼 사이에 공간을 evenly distribute */
+    }
+    .button-container button {
+        width: 48%; /* 버튼 너비 조정 */
+    }
+	
 	
 </style>
 </head>
@@ -100,20 +112,25 @@
         </div>
         <div>
             <label for="username">이름<label>
-            <input type="text" id="username" name="username" value='' />
+            <input type="text" id="username" name="username" th:value="${userInfo.username}" />
         </div>
 		<div>
             <label for="email">이메일<label>
-            <input type="text" id="email" name="email" value='' />
+            <input type="text" id="email" name="email" th:value="${userInfo.email}" />
         </div>
         <div>
-            <label for="phone">휴대폰 번호<label>
-            <input type="text" id="phoneNumber" name="phoneNumber" value='' />
+            <label for="phoneNumber">휴대폰 번호<label>
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${userInfo.phoneNumber}" />
         </div>
         
 		<!-- 오류 메시지를 표시할 요소 추가 -->
         <div id="error-message"></div>
-        <button type="button" id="btnConfirm">확 인</button>
+		
+		<!-- 버튼들을 감싸는 div 추가 -->
+        <div class="button-container">
+            <button type="button" id="btnConfirm">확 인</button>
+            <button type="button" id="btnBack" onclick="location.href='/' ">취 소</button>
+        </div>
         <button type="button" id="btnDelete" onclick="location.href='/member/memberDrop' ">회원 탈퇴</button>
 
         
@@ -158,37 +175,36 @@
 	            showError('비밀번호와 비밀번호 확인 란이 다릅니다.');
 	            return false;
 	        }
+			// 비밀번호 유효성 검사
+			if (password.length < 6) {
+			    showError('비밀번호는 6자 이상이어야 합니다.');
+			    return false;
+			}
+			if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+			    showError('비밀번호는 숫자와 문자의 조합이어야 합니다.');
+			    return false;
+			}
+			
+			// 이메일 중복 체크
+			fetch('/member/isEmailAvailable/' + encodeURIComponent(email))
+				            .then((response) => response.json())
+				            .then((data) => {
+								console.log(data);
+				                if (data.isExist) {
+									
+				                    showError('이미 사용중인 이메일입니다.');
+				                    return Promise.reject(); // 오류를 일으켜 다음 처리 중단
+				                } else{
+									document.querySelector('#infoForm').submit();				               
+				            	}
+							});
 
-	        // 이메일 중복 체크
-	        fetch('/member/checkEmail/' + encodeURIComponent(email))
-	            .then((response) => response.json())
-	            .then((data) => {
-	                if (!data) {
-	                    showError('이미 사용중인 이메일입니다.');
-	                    return Promise.reject(); // 오류를 일으켜 다음 처리 중단
-	                }
-	                // 전화번호 중복 체크
-	                return fetch('/member/checkPhone/' + encodeURIComponent(phoneNumber)); // 전화번호 체크 API 호출
-	            })
-	            .then((phoneResponse) => {
-	                if (!phoneResponse.ok) throw new Error('전화번호 체크 실패'); // 응답 상태 확인
-	                return phoneResponse.json();
-	            })
-	            .then((phoneData) => {
-	                if (!phoneData) {
-	                    showError('이미 사용중인 전화번호입니다.');
-	                } else {
-	                    // 이메일과 전화번호 모두 사용 가능한 경우 폼 제출
-	                    document.querySelector('#infoForm').submit();
-	                }
-	            });
-
-	        // 오류 메시지를 표시하는 함수
-	        function showError(message) {
-	            errorMessageDiv.textContent = message;
-	            errorMessageDiv.style.display = 'block'; // 메시지 표시
-	        }
-	    });
+				        // 오류 메시지를 표시하는 함수
+				        function showError(message) {
+				            errorMessageDiv.textContent = message;
+				            errorMessageDiv.style.display = 'block'; // 메시지 표시
+				        }
+				    });
 	</script>
      
 </body>

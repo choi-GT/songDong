@@ -84,10 +84,26 @@ public class MemberService implements CrudService<MemberShipVO> {
 	/** 체크 이메일
 	 * 
 	 */
-	public boolean isEmailAvailable(String email) {
-        int count = mapper.checkEmail(email);
-        return count == 0 ? true : false; // 이메일이 사용 가능한 경우 0 반환
-    }
+	
+	public HashMap<String, Object> isEmailAvailable(String email, HttpServletRequest request) {
+		int cnt = mapper.checkEmail(email);
+		HttpSession session = request.getSession();
+		MemberShipVO userInfo = (MemberShipVO) session.getAttribute("userInfo");
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+				MemberShipVO emailCheck = mapper.selectMemberByIdx(userInfo.getIdx());
+				if (userInfo.getEmail().equals(emailCheck.getEmail())) {
+					// 이메일이 같으면 그냥 넘어간다
+					map.put("isExist", false);
+				} else {
+					int emailCount = mapper.checkEmail(email);
+					map.put("isExist", emailCount == 0? false: true);
+				}
+				
+				log.info(map.toString());
+		return map;
+	}
 	
 	public HashMap<String, Object> checkUserID(String userID) {
 		int cnt = mapper.checkUserID(userID);
@@ -224,21 +240,23 @@ public class MemberService implements CrudService<MemberShipVO> {
 		if (!memberShipVO.getUserID().equals(userInfo.getUserID())) {
 			return false;
 		}
-		
+				
 		// 이메일 사용 여부 체크
-	    int emailCount = mapper.checkEmail(memberShipVO.getEmail());
-	    log.info(String.valueOf(emailCount));
-	    if (emailCount > 0) {
-	        return true; // 이메일이 이미 사용 중일 경우 false 반환
-	    }
+		MemberShipVO emailCheck = mapper.selectMemberByIdx(userInfo.getIdx());
 		
+		log.info(userInfo.getEmail());
 		
-//		if (!memberShipVO.getPassword().equals("")) {
-//			memberShipVO.setPassword("");
-//		}
-		
-		
-		log.info("226");
+		if (emailCheck != null && userInfo.getEmail().equals(emailCheck.getEmail())) {
+			// 이메일이 같으면 그냥 넘어간다
+			memberShipVO.setEmail("");
+		} else {
+			int emailCount = mapper.checkEmail(memberShipVO.getEmail());
+		    if (emailCount > 0) {
+		        return true; // 이메일이 이미 사용 중일 경우 false 반환
+		    }
+			return false;
+		}		
+				
 		mapper.updateInfo(memberShipVO);
 		
 		return true;

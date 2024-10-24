@@ -32,6 +32,7 @@
 			, USERID
 			, USERNAME
 			, EMAIL
+			, PHONENUMBER
 			, REGDATE
 			, ISUSE
 			, DROPDATE 
@@ -126,6 +127,19 @@
 		WHERE idx = #{idx}
 	</update>
 	
+	<select id="selectMemberByIdx" parameterType="Long" resultType="com.example.demo.vo.MemberShipVO">
+		SELECT IDX
+				, ISADMIN
+				, USERID
+				, USERNAME
+				, EMAIL
+				, REGDATE
+				, PHONENUMBER
+				, ISUSE
+				, DROPDATE 
+			FROM SEMI.MEMBERSHIP
+				WHERE idx = #{idx}
+	</select>	
 	
 	
 	

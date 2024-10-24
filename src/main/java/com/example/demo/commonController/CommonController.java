@@ -231,7 +231,26 @@ public class CommonController {
 			@RequestBody ChangePwRequest changePwRequest) {
 		return ResponseEntity.ok(memberService.changePW(changePwRequest));
 	}
+	
+	/**
+	 * 회원정보 수정 본인 이메일 중복 확인
+	 * @param email
+	 * @return
+	 */
+	@GetMapping("/isEmailAvailable/{email}")
+	@ResponseBody
+	public ResponseEntity<?> isEmailAvailable(
+			@PathVariable(value = "email") String email, HttpServletRequest request
+			) {
+		HashMap<String, Object> result = memberService.isEmailAvailable(email, request);
+		return ResponseEntity.ok(result);
+	}
 
+	/**
+	 * 회원정보 수정 페이지
+	 * @param request
+	 * @return
+	 */
     @RequestMapping("/myInfo")
     public ModelAndView myInfo(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
@@ -245,6 +264,12 @@ public class CommonController {
         return mav;
     }
 
+    /**
+     * 회원정보 수정
+     * @param request
+     * @param memberVO
+     * @return
+     */
     @PostMapping("/updateInfo")
     public ModelAndView updateInfo(
             HttpServletRequest request,

@@ -104,4 +104,13 @@ public class MemberMapper {
 	public void updateInfo(MemberShipVO memberShipVO) {
 		session.update("member.updateInfo", memberShipVO);
 	}
+	
+	/**
+	 * 회원정보 변경시 본인 이메일 중복 제외 체크
+	 * @param idx
+	 * @return
+	 */
+	public MemberShipVO selectMemberByIdx(Long idx) {
+		return session.selectOne("member.selectMemberByIdx", idx);
+	}
 }
