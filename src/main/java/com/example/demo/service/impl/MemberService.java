@@ -93,11 +93,17 @@ public class MemberService implements CrudService<MemberShipVO> {
 		HashMap<String, Object> map = new HashMap<>();
 		
 				MemberShipVO emailCheck = mapper.selectMemberByIdx(userInfo.getIdx());
-				if (userInfo.getEmail().equals(emailCheck.getEmail())) {
+				log.info(emailCheck.getEmail());
+				log.info(userInfo.getEmail());
+				log.info(email);
+				if (userInfo.getEmail().equals(email) && userInfo.getEmail().equals(emailCheck.getEmail())) {
+					log.info("asdfasdfsadf");
 					// 이메일이 같으면 그냥 넘어간다
 					map.put("isExist", false);
 				} else {
+					log.info("12345");
 					int emailCount = mapper.checkEmail(email);
+					log.info(String.valueOf(emailCount));
 					map.put("isExist", emailCount == 0? false: true);
 				}
 				
@@ -246,15 +252,16 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 		log.info(userInfo.getEmail());
 		
-		if (emailCheck != null && userInfo.getEmail().equals(emailCheck.getEmail())) {
+		if (emailCheck != null && userInfo.getEmail().equals(memberShipVO.getEmail())) {
 			// 이메일이 같으면 그냥 넘어간다
 			memberShipVO.setEmail("");
+			log.info("12312)");
 		} else {
 			int emailCount = mapper.checkEmail(memberShipVO.getEmail());
+			log.info(String.valueOf(emailCount));
 		    if (emailCount > 0) {
 		        return true; 
 		    }
-			return false;
 		}		
 				
 		mapper.updateInfo(memberShipVO);

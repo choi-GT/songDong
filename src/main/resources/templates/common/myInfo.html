@@ -51,6 +51,7 @@
         padding: 10px 5px;
         margin-top: 10px;
         margin-bottom: 10px;
+		font-size: 16px;
     }
     form button {
         display: block;
@@ -104,11 +105,11 @@
         </div>
         <div>
             <label for="password">비밀번호<label>
-            <input type="password" id="password" name="password" value='' />
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력해 주세요." value='' />
         </div>
         <div>
             <label for="password2">비밀번호 확인<label>
-            <input type="password" id="password2" name="password2" value='' />
+            <input type="password" id="password2" name="password2" placeholder="비밀번호를 입력해 주세요." value='' />
         </div>
         <div>
             <label for="username">이름<label>
@@ -141,7 +142,7 @@
 	        e.preventDefault();
 
 	        const userID = document.querySelector('#userID').value?.trim();
-	        const email = document.querySelector('#email').value?.trim();
+	        const email = document.querySelector('#email').value?.trim().toLowerCase();
 	        const username = document.querySelector('#username').value?.trim();
 	        const password = document.querySelector('#password').value?.trim();
 	        const password2 = document.querySelector('#password2').value?.trim();
@@ -191,10 +192,11 @@
 				            .then((data) => {
 								console.log(data);
 				                if (data.isExist) {
-									
+									console.log(data.isExist);
 				                    showError('이미 사용중인 이메일입니다.');
 				                    return Promise.reject(); // 오류를 일으켜 다음 처리 중단
 				                } else{
+									console.log(data.isExist);
 									document.querySelector('#infoForm').submit();				               
 				            	}
 							});
