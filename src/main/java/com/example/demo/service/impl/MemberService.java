@@ -252,7 +252,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 		} else {
 			int emailCount = mapper.checkEmail(memberShipVO.getEmail());
 		    if (emailCount > 0) {
-		        return true; // 이메일이 이미 사용 중일 경우 false 반환
+		        return true; 
 		    }
 			return false;
 		}		
