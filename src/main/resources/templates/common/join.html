@@ -38,6 +38,14 @@
       }
       input:focus {
         outline: none;
+		border: 2px solid mediumseagreen;
+		border-radius: 3px;
+      }
+	  input.error {
+        outline: none;
+		color: red;
+  		border: 2px solid red;
+  		border-radius: 3px;
       }
       button {
         display: block;
@@ -69,7 +77,7 @@
         padding: 10px;
         width: 100%;
       }
-      .rightBirth, .rightNumber, .usingNumber, .rightEmail, .usingEmail, .usingId, .idEnough, .pwLength, .pwEnough, .pwIncorrect {
+      .noName, .rightBirth, .rightNumber, .usingNumber, .rightEmail, .usingEmail, .usingId, .idEnough, .pwLength, .pwEnough, .pwIncorrect {
         margin-left: 10px;
         color: red;
       }
@@ -135,6 +143,7 @@
           required
         />
       </div>
+	  <div class="noName hide">* 이름을 입력해 주세요.</div>
       <div class="rightBirth hide">* 올바르지 않은 생년월일 형식입니다.</div>
       <div class="rightNumber hide">* 올바르지 않은 번호 형식입니다.</div>
       <div class="usingNumber hide">* 이미 등록된 휴대폰 번호입니다.</div>
@@ -182,20 +191,21 @@
 		</div>
     </form>
     <script th:inline="javascript">
-      const name = document.querySelector("#username").value?.trim();
-	  const birth = document.querySelector("#birth").value?.trim();
-      const number = document.querySelector("#phoneNumber").value?.trim();
-      const email = document.querySelector("#email").value?.trim();
+      const name = document.querySelector("#username");
+	  const birth = document.querySelector("#birth");
+      const phoneNumErr = document.querySelector("#phoneNumber");
+      const emailErr = document.querySelector("#email");
 
-      const rightBirth = document.querySelector(".rightBirth");
+	  const noName = document.querySelector(".noName");
+	  const rightBirth = document.querySelector(".rightBirth");
       const rightNumber = document.querySelector(".rightNumber");
 	  const usingNumber = document.querySelector(".usingNumber");
       const rightEmail = document.querySelector(".rightEmail");
 	  const usingEmail = document.querySelector(".usingEmail");
 
-      const userID = document.querySelector("#userID").value?.trim();
-      const newPw = document.querySelector("#password").value?.trim();
-      const newPw2 = document.querySelector("#password2").value?.trim();
+      const userId = document.querySelector("#userID");
+      const pw1 = document.querySelector("#password");
+      const pw2 = document.querySelector("#password2");
       
 	  const available = document.querySelector(".available");
 	  const usingId = document.querySelector(".usingId");
@@ -232,50 +242,70 @@
           return false;
         }
       }
+	  
+	  // 이름을 두글자 이상 입력했는지 확인
+	  name.onchange = function() {
+		if (name.value.length < 2) {
+			name.classList.add('error');
+			noName.classList.remove('hide');
+		} else {
+			name.classList.remove('error');
+			noName.classList.add('hide');
+		}
+	  }
 
       // 생년월일을 형식에 맞게 입력했는지 확인
       birth.onchange = function() {
         // 입력받은 8자에서 끊어가며 년, 월, 일 구분
-        let year = Number(birth.substr(0, 4));
-        let month = Number(birth.substr(4, 2));
-        let day = Number(birth.substr(6, 2));
+        let year = Number(birth.value?.trim().substr(0, 4));
+        let month = Number(birth.value?.trim().substr(4, 2));
+        let day = Number(birth.value?.trim().substr(6, 2));
 
         let today = new Date();
         let yearNow = today.getFullYear();
 
         // 생년월일을 8자 맞게 입력했는지 확인
-        if (birth.length === 8) {
+        if (birth.value.length === 8) {
           if (1900 > year || year > yearNow) {
             // 1900년도 이하 또는 현재 년도 이상으로 입력 시 오류 메시지 표시
+			birth.classList.add('error');
             rightBirth.classList.remove('hide');
           } else if (month < 1 || month > 12) {
             // 월을 1보다 작거나 12보다 크게 입력 시 오류 메시지 표시
+			birth.classList.add('error');
             rightBirth.classList.remove('hide');
           } else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day < 1 || day > 30)) {
             // 일수가 30일인 달에 일을 1보다 작거나 30보다 크게 입력 시 오류 메시지 표시
+			birth.classList.add('error');
             rightBirth.classList.remove('hide');
           } else if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && (day < 1 || day > 31)) {
             // 일수가 31일인 달에 일을 1보다 작거나 31보다 크게 입력 시 오류 메시지 표시
+			birth.classList.add('error');
             rightBirth.classList.remove('hide');
           } else if (month == 2) {
             // 2월 윤년 계산(4로 나눠떨어지고 400으로 나눠 떨어지는 해의 2월은 29일까지 존재)
             if ((year % 4 == 0) && (year % 400 == 0) || (year % 4 == 0) && (year % 400 != 0) && (year % 100 != 0)) {
               if (day < 1 || day > 29) {
                 // 윤년의 2월에 일을 1보다 작거나 29보다 크게 입력 시 오류 메시지 표시
+				birth.classList.add('error');
                 rightBirth.classList.remove('hide');
               } else {
                 // 맞게 입력 시 오류 메시지 숨김
+				birth.classList.remove('error');
                 rightBirth.classList.add('hide');
               }
             } else if ((year % 4 == 0) && (year % 400 != 0) && (year % 100 == 0) || (year % 4 != 0)) {
               if (day < 1 || day > 28) {
                 // 윤년이 아닌 2월에 일을 1보다 작거나 28보다 크게 입력 시 오류 메시지 표시
+				birth.classList.add('error');
                 rightBirth.classList.remove('hide');
               } else {
                 // 맞게 입력 시 오류 메시지 숨김
+				birth.classList.remove('error');
                 rightBirth.classList.add('hide');
               }
             } else {
+			  birth.classList.remove('error');
               return true;
             }
           } else {
@@ -312,13 +342,15 @@
       }
 
       // 비밀번호 입력 시 적용되는 내용
-      newPw.onchange = function() {
-        if (newPw.length !== 0) {
-          if (pwCheck(newPw) === true) {
+      pw1.onchange = function() {
+        if (pw1.value.length !== 0) {
+          if (pwCheck(pw1.value) === true) {
             // 비밀번호를 입력하고 조건에 맞을 때 오류 메시지 숨김
+			pw1.classList.remove('error');
             pwEnough.classList.add('hide');
           } else {
             // 비밀번호를 입력했지만 조건에 맞지 않을 때 오류 메시지 표시
+			pw1.classList.add('error');
             pwEnough.classList.remove('hide');
           }
         } else {
@@ -326,13 +358,15 @@
         }
       }
       // 비밀번호 확인 입력 시 적용되는 내용
-      newPw2.onkeyup = function() {
-        if (newPw2.length !== 0) {
-          if (passwordCheck(newPw, newPw2) === true) {
+      pw2.onkeyup = function() {
+        if (pw2.value.length !== 0) {
+          if (passwordCheck(pw1.value, pw2.value) === true && pw2.value.length > 5) {
             // 비밀번호 확인이 일치하면 오류 메시지 숨김
+			pw2.classList.remove('error');
             pwIncorrect.classList.add('hide');
           } else {
             // 비밀번호 확인이 일치하지 않으면 오류 메시지 표시
+			pw2.classList.add('error');
             pwIncorrect.classList.remove('hide');
           }
         } else {
@@ -350,6 +384,7 @@
   		numberCheck = false;
   		numberDup = false;
   		
+		phoneNumErr.classList.remove('error');
 		rightNumber.classList.add('hide');
 		usingNumber.classList.add('hide');
   		
@@ -362,9 +397,11 @@
   			numberCheck = true;
   			numberDup = isExist;
   			if(rightNum(phoneNumber) === true && isExist) {
+				phoneNumErr.classList.add('error');
   				rightNumber.classList.add('hide');
   				usingNumber.classList.remove('hide');
   			} else if(rightNum(phoneNumber) === false) {
+				phoneNumErr.classList.add('error');
 				rightNumber.classList.remove('hide');
   				usingNumber.classList.add('hide');
   			} else {
@@ -385,6 +422,7 @@
 		emailCheck = false;
 		emailDup = false;
 		
+		emailErr.classList.remove('error');
 		rightEmail.classList.add('hide');
 		usingEmail.classList.add('hide');
 		
@@ -398,10 +436,12 @@
 			emailDup = isExist;
 			// 이메일 형식에 맞게 적었으나 이미 존재할 경우
 			if (isExist && rightMail(email) === true) {
+				emailErr.classList.add('error');
 				rightEmail.classList.add('hide');
 				usingEmail.classList.remove('hide');
 			} else if (rightMail(email) === false) {
 				// 이메일 형식에 맞지 않게 적은 경우
+				emailErr.classList.add('error');
 				rightEmail.classList.remove('hide');
 				usingEmail.classList.add('hide');
 			} else {
@@ -422,6 +462,7 @@
   		idCheck = false;
   		idDup = false;
   		
+		userId.classList.remove('error');
   		available.classList.add('hide');
   		usingId.classList.add('hide');
   		idEnough.classList.add('hide');
@@ -436,16 +477,19 @@
   			idDup = isExist;
 			// 아이디를 형식에 맞게 적었으나 이미 존재할 경우
   			if(userID.length > 4 && isExist) {
+				userId.classList.add('error');
   				available.classList.add('hide');
   				usingId.classList.remove('hide');
   				idEnough.classList.add('hide');
   			} else if(userID.length < 5) {
 				// 아이디를 형식에 맞지 않게 적은 경우
+				userId.classList.add('error');
   				available.classList.add('hide');
   				usingId.classList.add('hide');
   				idEnough.classList.remove('hide');
   			} else {
 				// 아이디를 형식에 맞게 적고 존재하지 않을 경우(사용 가능)
+				userId.classList.remove('error');
   				available.classList.remove('hide');
   				usingId.classList.add('hide');
   				idEnough.classList.add('hide');
@@ -457,47 +501,49 @@
 	  const btnJoin = document.querySelector('#join');
   		btnJoin.addEventListener('click', function(e) {
   			const username = document.querySelector('#username').value?.trim();
+			const password = document.querySelector('#password').value?.trim();
+			const password2 = document.querySelector('#password2').value?.trim();
   			
   			if (username.length < 2) {
-  				document.querySelector('#username').focus();
+  				name.classList.add('error');
   				return;
   			}
-  			if (newPw1.length < 6) {
-  				document.querySelector('#password').focus();
+  			if (password.length < 6) {
+				pw1.classList.add('error');
   				return;
   			}
-  			if (newPw1 != newPw2) {
-  				document.querySelector('#password2').focus();
+  			if (password != password2) {
+  				pw2.classList.add('error');
   				return;
   			}
-  			if (newPw1.length >= 6 && newPw2.length >= 6
-  				&& newPw1 === newPw2 && idCheck && idDup
-  				&& emailCheck && emailDup) {
+  			if (password.length >= 6 && password2.length >= 6
+  				&& password === password2 && idCheck && idDup
+  				&& emailCheck && emailDup && birth.value.length == 8) {
   				alert('가입처리 완료');
-  			const data = {
-  				method: 'post',
-  				headers: {
-  					'Content-Type': 'application/json'
-  				},
-  				body: JSON.stringify({
-  					userID: document.querySelector('#userID').value?.trim(),
-  					password: document.querySelector('#password').value?.trim(),
-  					password2: document.querySelector('#password2').value?.trim(),
-  					email: document.querySelector('#email').value.trim(),
-  					username: document.querySelector('#username').value.trim()
-  				}),
-  			}
-  			
-  			fetch('/member/joinProc2', data)
-  				.then((response) => response.json())
-  				.then((data) => {
-  					console.log(data);
-  					const {result, message} = data;
-  					alert(message);
-  					if (result) {
-  						window.location.href = '/member/login';
-  					}
-  				});
+	  			const data = {
+	  				method: 'post',
+	  				headers: {
+	  					'Content-Type': 'application/json'
+	  				},
+	  				body: JSON.stringify({
+	  					userID: document.querySelector('#userID').value?.trim(),
+	  					password: document.querySelector('#password').value?.trim(),
+	  					password2: document.querySelector('#password2').value?.trim(),
+	  					email: document.querySelector('#email').value.trim(),
+	  					username: document.querySelector('#username').value.trim()
+	  				}),
+	  			}
+	  			
+	  			fetch('/member/joinProc2', data)
+	  				.then((response) => response.json())
+	  				.then((data) => {
+	  					console.log(data);
+	  					const {result, message} = data;
+	  					alert(message);
+	  					if (result) {
+	  						window.location.href = '/member/login';
+	  					}
+	  				});
   			} else {
   				alert('회원가입 양식을 확인하세요.');
   				return;

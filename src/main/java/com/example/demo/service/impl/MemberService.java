@@ -187,7 +187,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 		}
 		
 		// 계정이 있으면 랜덤하게 문자열을 생성해서 idx값에 해당하는 비밀번호 변경
-		String randomPw = StringUtil.generateRandomString(10);
+		String randomPw = StringUtil.generateRandomString(6);
 		
 		// 기존에 memberVO가 있기때문에 별도로 생성 하지 않고 기존 변수명 활용
 		memberShipVO = MemberShipVO.builder()
