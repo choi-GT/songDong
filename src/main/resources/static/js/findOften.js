@@ -19,7 +19,6 @@ function initMap() {
     map = new kakao.maps.Map(mapContainer, mapOptions); // 전역 변수로 지도 인스턴스 저장
 }
 
-// 가게 검색
 function searchStores() {
     const query = document.getElementById("storeQuery").value.trim();
     const searchResults = document.getElementById("searchResults");
@@ -48,22 +47,30 @@ function searchStores() {
         }
 
         data.documents.forEach((store) => {
-            const li = document.createElement("li");
-            li.textContent = `${store.place_name} - ${store.address_name}`;
-            li.onclick = () => {
-                showLocation(store.address_name, store.place_url); // URL도 넘겨줌
-                selectedStore = store.place_name;
-                document.getElementById("storeId").value = selectedStore;
-                document.getElementById("addFavoriteBtn").scrollIntoView({ behavior: "smooth" });
-            };
-            searchResults.appendChild(li);
+            // 성동구 주소인지 확인
+            if (store.address_name.includes("성동구")) {
+                const li = document.createElement("li");
+                li.textContent = `${store.place_name} - ${store.address_name}`;
+                li.onclick = () => {
+                    showLocation(store.address_name, store.place_url);
+                    selectedStore = store.place_name;
+                    document.getElementById("storeId").value = selectedStore;
+                    document.getElementById("addFavoriteBtn").scrollIntoView({ behavior: "smooth" });
+                };
+                searchResults.appendChild(li);
+            }
         });
+
+        if (searchResults.childNodes.length === 0) {
+            alert("성동구에 해당하는 검색 결과가 없습니다.");
+        }
     })
     .catch((error) => {
         console.error("Error:", error);
         alert("가게 검색에 실패했습니다: " + error.message);
     });
 }
+
 
 // 주소로 위치 표시
 function showLocation(address, placeUrl) {

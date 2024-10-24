@@ -46,7 +46,7 @@ public class CommonController {
     public String showStoreList(Model model) {
         List<StoreInfoVO> storeList = storeService.getAllStores();
         model.addAttribute("storeList", storeList);
-        return "storeList"; // JSP 템플릿 이름  
+        return "common/storeList"; // JSP 템플릿 이름  
     }
     
     
