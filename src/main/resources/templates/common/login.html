@@ -39,9 +39,9 @@
         width: 100%;
       }
       input:focus { /*입력할 때 입력창 스타일 지정*/
-        outline: 2px solid orange;
+		outline: 2px solid mediumseagreen;
         border-bottom: 2px solid #fff;
-        border-radius: 10px;
+		border-radius: 5px;
       }
       button, #join { /*로그인, 회원가입 버튼 기본 스타일 지정*/
         display: block;
@@ -54,20 +54,29 @@
         margin-bottom: 5px;
       }
       #login { /*로그인 버튼 스타일 지정*/
-        background-color: orange;
+        background-color: mediumseagreen;
         color: white;
         font-weight: bold;
         cursor: pointer;
       }
       #join { /*회원가입 버튼 로그인과 구분가도록 설정*/
         color: white;
-        background-color:coral;
+        background-color:lightseagreen;
         margin-bottom: 20px;
       }
       a {
         text-decoration: none;
       }
-      div {
+	  .checkAccount {
+	    margin-left: 5px;
+		margin-bottom: 5px;
+	    color: red;
+		font-size: 15px;
+	  }
+	  .hide {
+	    display: none;
+	  }
+      .lostFound {
         text-align: center;
       }
       div a { /*아이디 찾기, 비밀번호 찾기 글자 스타일 지정*/
@@ -107,6 +116,7 @@
 		autocomplete="off"
         required
       />
+	  <div class="checkAccount hide">* 계정을 다시 확인해주세요.</div>
       <button id="login" type="submit">로그인</button>
       <a href="/member/join" id="join">회원가입</a>
       <div class="lostFound">
@@ -115,10 +125,14 @@
       </div>
     </form>
 	<script th:inline="javascript">
+		const checkAccount = document.querySelector('.checkAccount');
+		
 		document.querySelector('.loginForm').addEventListener('submit', function(e) {
 			e.preventDefault();
 			const userID = document.querySelector('#userID').value?.trim();
 			const password = document.querySelector('#password').value?.trim();
+			
+			checkAccount.classList.add('hide');
 			
 			if (userID.length < 5) {
 				alert('아이디는 5자 이상 입력하세요.');
@@ -135,7 +149,10 @@
 		
 		const id = /*[[${userID}]]*/;
 		const pw = /*[[${password}]]*/;
-		if (id && pw) alert('계정을 확인하세요.');
+		if (id && pw) {
+			alert('계정을 확인하세요.');
+			checkAccount.classList.remove('hide');
+		}
 	</script>
   </body>
 </html>

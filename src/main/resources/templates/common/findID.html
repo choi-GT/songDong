@@ -39,9 +39,9 @@
         width: 100%;
       }
       input:focus { /*입력할 때 입력창 스타일 지정*/
-        outline: 2px solid orange;
+		outline: 2px solid mediumseagreen;
         border-bottom: 2px solid #fff;
-        border-radius: 10px;
+		border-radius: 5px;
       }
       button, #login { /*아아디 찾기, 로그인 버튼 기본 스타일 지정*/
         display: block;
@@ -54,20 +54,29 @@
         margin-bottom: 5px;
       }
       #findID { /*아이디 찾기 버튼 스타일 지정*/
-        background-color: orange;
+        background-color: mediumseagreen;
         color: white;
         font-weight: bold;
         cursor: pointer;
       }
       #login { /*로그인 버튼과 아이디 찾기 버튼 구분가도록 설정*/
         color: white;
-        background-color:coral;
+        background-color: lightseagreen;
         margin-bottom: 20px;
       }
       a {
         text-decoration: none;
       }
-      div {
+	  .rightEmail {
+        margin-left: 5px;
+		margin-bottom: 5px;
+        color: red;
+		font-size: 15px;
+      }
+	  .hide {
+        display: none;
+      }
+      .lostFound {
         text-align: center;
         margin-top: 20px;
       }
@@ -91,6 +100,7 @@
 		autocomplete="off"
         required
       />
+	  <div class="rightEmail hide">* 이메일을 다시 확인해주세요.</div>
       <button id="findID" type="submit">아이디 찾기</button>
       <a href="/member/login" id="login">로그인</a>
       <div class="lostFound">
@@ -98,7 +108,11 @@
       </div>
     </form>
 	<script th:inline="javascript">
+		const rightEmail = document.querySelector('.rightEmail');
+		
 		document.querySelector('#findID').addEventListener('click', function(e) {
+			rightEmail.classList.add('hide');
+			
 			e.preventDefault();
 			const email = document.querySelector('#email').value?.trim();
 			fetch('/member/findID/' + email)
@@ -106,7 +120,12 @@
 				.then((data) => {
 					console.log(data);
 					const {result, message} = data;
-					alert(message);
+					if (result == false) {
+						alert(message);
+						rightEmail.classList.remove('hide');
+					} else {
+						alert(message);
+					}
 				});
 		});
 	</script>
