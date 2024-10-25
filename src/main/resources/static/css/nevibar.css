@@ -174,10 +174,7 @@ button.dropbtn{
     padding-right: 25px;
 	
   }
-.menu1, .menu2{
-	flex-wrap: wrap;
-	display: none;
-}
+
 .menu3{
 	display: block;
 }
