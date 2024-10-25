@@ -17,7 +17,7 @@
   <body>
 
 	<!-- Popup -->
-	<div class="pop active" id="pop">
+	<div th:if="${userInfo == null}" class="pop active" id="pop">
 	    <img th:src="@{/image/KakaoTalk_20241022_155358475_01.jpg}" alt="immm" class="immm"> 
 	    <div class="text">
 	        <p class="top">성동구 빵집 맵</p>
