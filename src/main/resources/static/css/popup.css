@@ -31,6 +31,7 @@
     left: 10%;
     width: 400px;
     height: 500px;
+	
 }
 .top {
     margin-top: 30px;
@@ -59,4 +60,11 @@
 .name {
     font-size: 25px;
     color: rgb(25, 25, 25);
+}
+
+@media(max-height : 760px){
+	#pop{
+		overflow-y: auto;
+	}
+	
 }
