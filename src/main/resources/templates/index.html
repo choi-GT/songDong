@@ -343,15 +343,9 @@
 	        places.place_name +
 	        "</h5>";
 
-	    itemStr += `<button type="button" onclick="favorite('${places.place_name}')">즐겨찾기</button>`;
+	    // itemStr += `<button type="button" onclick="favorite('${places.place_name}')">즐겨찾기</button>`;
+		itemStr += `<a class="fabu" href="/member/storeList?shopText=${places.place_name}">즐겨찾기</a>`;
 	
-		function favorite(place_name) {
-			event.stopPropagation();
-			console.log(place_name)
-		    // 즐겨찾기 페이지로 이동
-			
-		    window.location.href = "/member/storeList?shopText="+place_name; // 해당 페이지로 이동
-		}
 		
 	    if (places.road_address_name) {
 	      itemStr +=
@@ -371,12 +365,12 @@
 	    el.className = "item";
 
 	    // 장소 항목을 클릭했을 때 지도 중심을 해당 장소의 좌표로 이동시킴
-	    el.onclick = function () {
+	    el.onclick = function (e) {
+			e.stopPropagation();
 	      var latLng = new kakao.maps.LatLng(places.y, places.x); // 해당 장소의 좌표값
 	      map.setCenter(latLng); // 지도의 중심을 클릭한 장소의 좌표로 이동
 		  map.setLevel(3);
 		  console.log(places.place_name);
-		  favorite(places.place_name);
 	    };
 		
 		

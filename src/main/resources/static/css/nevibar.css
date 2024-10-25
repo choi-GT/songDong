@@ -166,7 +166,15 @@ button.dropbtn{
 .menu3{
 	display: none;
 }
-
+/*인덱스화면 검색창 즐겨찾기버튼 css*/
+.fabu{
+	border: 2px solid rgb(91,172,140);;
+	font-weight: 700;
+	position:relative;
+	left: 133px;
+	
+	
+}
 @media (max-width: 767px) {
   .navbar {
     width: auto;
