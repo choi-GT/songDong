@@ -37,7 +37,7 @@ public class ApiController {
     @Autowired
     private StoreService2 storeService2;
 
-	 @GetMapping("/getStoreCoords")
+	@GetMapping("/getStoreCoords")
 	    public ResponseEntity<?> getStoreCoords(@RequestParam String sitewhladdr) {
 	        StoreVO store = storeService.getStoreByAddress(sitewhladdr); // 주소로 좌표 검색
 

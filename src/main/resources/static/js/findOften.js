@@ -206,11 +206,21 @@ async function updateFavoriteList() {
 // 즐겨찾기 제거
 async function removeFavorite(storeName) {
     try {
-        await fetch(`/api/favorites/${encodeURIComponent(storeName)}`, {
-            method: 'DELETE',
+        const response = await fetch(`/api/favorite/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ storeName: storeName }), // JSON 형식으로 storeName 전달
         });
-        alert(`${storeName} 가 즐겨찾기 목록에서 삭제되었습니다.`);
-        updateFavoriteList(); // 목록 업데이트
+
+        if (response.ok) {
+            alert(`${storeName} 가 즐겨찾기 목록에서 삭제되었습니다.`);
+            updateFavoriteList(); // 목록 업데이트
+        } else {
+            const errorText = await response.text();
+            alert("삭제 오류: " + errorText);
+        }
     } catch (error) {
         console.error("즐겨찾기 삭제 오류:", error);
         alert("즐겨찾기 삭제에 실패했습니다.");
