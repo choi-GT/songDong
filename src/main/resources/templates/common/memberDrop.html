@@ -55,7 +55,7 @@
 	    display: block;
 	    width: 100%;
 	    background-color: lightseagreen;
-	    color: black;
+	    color: #FFF;
 	    border-radius: 20px;
 	    padding: 10px;
 	    border: 0;
@@ -69,6 +69,15 @@
 	, #password2 {
 		color: black;
 	}
+	
+	/* 버튼을 같은 선상에 두기 위한 스타일 추가 */
+    .button-container {
+        display: flex;
+        justify-content: space-between; /* 버튼 사이에 공간을 evenly distribute */
+    }
+    .button-container button {
+        width: 48%; /* 버튼 너비 조정 */
+    }
 		  
 			   	  
 </style>
@@ -89,7 +98,14 @@
 			<label for="password2">비밀번호 확인</label>
 			<input type="password" id="password2" name="password2" placeholder="비밀번호를 입력하세요." value="" />
 		</div>
+		
+		<!--<button type="button" id="btnDrop">탈퇴</button>-->
+		
+		<div class="button-container">
 		<button type="button" id="btnDrop">탈 퇴</button>
+		<button type="button" id="btnBack" onclick="location.href='/' ">취 소</button>
+		</div>
+		
 	</form>
 	</div>
 	<script th:inline="javascript">
@@ -101,13 +117,17 @@
 			const password2 = document.querySelector('#password2').value?.trim();
 			if (password !== '' && password2 !== '' && password !== password2) {
 			alert('비밀번호와 비밀번호 확인 란이 다릅니다.');
+			document.querySelector('#password').focus(); // 비밀번호 칸으로 포커스 이동
 			return false;
 			}
-			document.querySelector('#memberDropForm').submit();
+			if (confirm("정말로 회원 탈퇴를 하시겠습니까?")){
+				document.querySelector('#memberDropForm').submit();
+			}
 		});
 		const message = /*[[${message}]]*/;
 		if (message){
 			alert(message);
+			document.querySelector('#userID').focus(); // 사용자 ID 칸으로 포커스 이동
 		}
 	</script>
 </body>
