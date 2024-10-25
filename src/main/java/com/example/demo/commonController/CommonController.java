@@ -43,8 +43,11 @@ public class CommonController {
     private StoreService2 storeService;
 
     @GetMapping("/storeList")
-    public String showStoreList(Model model) {
+    public String showStoreList(Model model ,
+    				@RequestParam(value= "shopText", required = false, defaultValue = "") String shopText
+    		) {
         List<StoreInfoVO> storeList = storeService.getAllStores();
+        model.addAttribute("shopText",shopText);
         model.addAttribute("storeList", storeList);
         return "common/storeList"; // JSP 템플릿 이름  
     }
