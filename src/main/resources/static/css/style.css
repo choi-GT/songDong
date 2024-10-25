@@ -31,7 +31,7 @@ h2 {
 }
 
 input {
-    width: calc(70% - 22px);
+    width: calc(85% - 22px);
     padding: 12px;
     margin: 10px 5px 10px 0;
     border: 1px solid #ccc;
@@ -54,7 +54,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-    font-size: 0.7rem;
+    font-size: 1rem;
 }
 
 button:hover {
