@@ -1,7 +1,5 @@
 package com.example.demo.commonController;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +26,6 @@ import com.example.demo.vo.StoreInfoVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -304,18 +304,18 @@
               }
             } else {
 			  birth.classList.remove('error');
+			  rightBirth.classList.add('hide');
               return true;
             }
           } else {
             // 모두 맞게 입력했을 시 오류 메시지 숨김
+			birth.classList.remove('error');
             rightBirth.classList.add('hide');
           }
-        } else if (birth.length !== 0 && (birth.length > 8 || birth.length < 8)) {
-          // 형식에 맞는 8개의 숫자를 입력하지 않을 시 오류 메시지 표시
-          rightBirth.classList.remove('hide');
         } else {
-          // 맞게 입력 시 오류 메시지 숨김
-          rightBirth.classList.add('hide');
+          // 생년월일 8자에 맞지 않게 입력 시 오류 메시지 표시
+		  birth.classList.add('error');
+          rightBirth.classList.remove('hide');
         }
       }
 
