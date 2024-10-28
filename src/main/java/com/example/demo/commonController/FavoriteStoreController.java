@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:8080")
+
 @RestController
 @RequestMapping("/api")
 @Slf4j
@@ -28,23 +28,25 @@ public class FavoriteStoreController {
     public ResponseEntity<?> addFavorite(@RequestBody String storeName, HttpServletRequest request) {
         HttpSession se = request.getSession();
         MemberShipVO vo = (MemberShipVO) se.getAttribute("userInfo");
-        log.info(vo.toString());
-//        log.info(String.valueOf(userId));
-        boolean success = storeService.saveFavoriteStore(storeName, request); // 즐겨찾기 추가
-//        return success ? ResponseEntity.ok().build() : ResponseEntity.status(500).build();
-    	return null;  
+        log.info("User Info: {}", vo);
+        
+        boolean success = storeService.saveFavoriteStore(storeName, request);
+        if (success) {
+            log.info("즐겨찾기 추가 성공: {}", storeName);
+            return ResponseEntity.ok("즐겨찾기 추가 성공");
+        } else {
+            log.error("즐겨찾기 추가 실패: {}", storeName);
+            return ResponseEntity.status(500).body("즐겨찾기 추가 실패");
+        }
     }
 
-//    @DeleteMapping("/favorites")
-//    public ResponseEntity<Void> removeFavorite(@RequestBody String json) {
-//        try {
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            FavoriteStoreVO favoriteStore = objectMapper.readValue(json, FavoriteStoreVO.class);
-//            boolean success = storeService.removeFavoriteStore(favoriteStore.getStoreName());
-//            return success ? ResponseEntity.ok().build() : ResponseEntity.status(500).build();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(500).build();
-//        }
-//    }
+
+    
+    @GetMapping("/favorites")
+    public ResponseEntity<?> removeFav(@RequestParam(value = "storeName") String storeName, HttpServletRequest request) {
+    	log.info(storeName);
+    	storeService.removeFavoriteStore(storeName, request);
+    	return ResponseEntity.ok().build(); 
+    }
+
 }

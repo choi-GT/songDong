@@ -27,4 +27,6 @@ public interface StoreMapper2 {
 	List<FavoriteStoreVO> getAllFavoriteStores(); // XML에서 정의한 쿼리 호출
 	
 	List<HashMap<String, Object>> favoriteCount();
+	
+	int favoriteExist(HashMap<String, Object> map);
 }

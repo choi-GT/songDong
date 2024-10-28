@@ -35,12 +35,17 @@ import lombok.extern.slf4j.Slf4j;
 	        try {
 	        	HttpSession session = request.getSession();
 	        	MemberShipVO vo = (MemberShipVO) session.getAttribute("userInfo");
+	        	log.info(vo.toString());
 	        	HashMap<String, Object> requestMap = new HashMap<>();
 	        	requestMap.put("storeName", storeName);
 	        	requestMap.put("userIDX", vo.getIdx());
 	        	log.info(requestMap.toString());
-	            storeMapper.insertFavoriteStore(requestMap); // 매퍼에서 호출
-	            return true;
+	        	int cnt = storeMapper.favoriteExist(requestMap);
+	        	if (cnt == 0) {
+	        		storeMapper.insertFavoriteStore(requestMap);
+	        		return true;
+	        	} 	        	
+	        		return false;
 	        } catch (Exception e) { 
 	            e.printStackTrace();
 	            return false;

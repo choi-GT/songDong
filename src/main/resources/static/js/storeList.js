@@ -20,12 +20,6 @@ function filterStores() {
 
 // 주소 타입 변경 버튼 클릭 시 동작
 document.addEventListener('DOMContentLoaded', () => {
-	
-	// 초기값 설정  -->  메인페이지에서 검색창에서 즐겨찾기 눌렀을때 성동구빵집리스트에서 가게검색 필터링 함수 기능 정상적으로 수행되도록 설정
-	const initialQuery = new URLSearchParams(window.location.search).get('shopText') || '';
-	document.getElementById("storeQuery").value = initialQuery;
-	filterStores(); // 페이지 로드 시 필터링 함수 호출
-	
     document.querySelector('#changeAddressTypeBtn').addEventListener('click', () => {
         const rdnwhladdrList = document.querySelectorAll('.rdnwhladdr');
         const sitewhladdrList = document.querySelectorAll('.sitewhladdr');
@@ -39,14 +33,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// 상태 버튼 클릭 시 폐업 가게 숨기기/보이기
+/*let showClosedStores = true;
 
+document.getElementById('toggleClosedStoresBtn').addEventListener('click', () => {
+    const rows = document.querySelectorAll('#storeTableBody tr');
+    showClosedStores = !showClosedStores; // 상태 토글
+
+    rows.forEach(row => {
+        const status = row.cells[3].textContent; // 상태 열의 텍스트 가져오기
+        if (status.includes('폐업')) {
+            row.style.display = showClosedStores ? '' : 'none'; // 버튼 상태에 따라 보이기/숨기기
+        }
+    });
+});
+*/
 
 
 // 페이지 로드 시 초기화
 window.onload = function() {
     // 추가 함수 (필요시 여기 추가)
 };
-
 
 
 
