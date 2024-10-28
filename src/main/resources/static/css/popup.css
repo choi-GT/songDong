@@ -27,10 +27,10 @@
     border: red solid 4px;
     border-radius: 30px;
     margin-top: 50px;
-    top: 25%;
+    top: auto;
     left: 10%;
     width: 400px;
-    height: 500px;
+    height: auto;
 	
 }
 .top {
