@@ -1,5 +1,7 @@
 package com.example.demo.commonController;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import com.example.demo.vo.StoreInfoVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -333,7 +336,12 @@ public class CommonController {
         mav.addObject("title", "회원가입");
         return mav;
     }
-
+    
+    
+    /**
+     * 회원 탈퇴 
+     * @return
+     */
     @RequestMapping("/memberDrop")
     public ModelAndView memberDrop() {
         ModelAndView mav = new ModelAndView();
@@ -341,13 +349,19 @@ public class CommonController {
         mav.addObject("title", "회원 탈퇴");
         return mav;
     }
-
+    /**
+     * 회원 탈퇴 처리 isuse 0처리 
+     * @param userID
+     * @param password
+     * @return
+     */
     @PostMapping("/memberDropProc")
     public ModelAndView memberDropProc(
             @RequestParam(value = "userID", required = true, defaultValue = "") String userID,
             @RequestParam(value = "password", required = true, defaultValue = "") String password) {
         ModelAndView mav = new ModelAndView();
         boolean result = memberService.memberDrop(userID, password);
+        log.info(String.valueOf(result));
         if (result) {
             mav.setViewName("redirect:/member/login");
         } else {
@@ -357,7 +371,13 @@ public class CommonController {
         return mav;
     }
 
-    @GetMapping("/search")
+    private String hashPassword(String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@GetMapping("/search")
     public ModelAndView search() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("common/search");

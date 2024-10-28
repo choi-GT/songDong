@@ -181,7 +181,9 @@
 	            showError('이메일 형식을 확인하세요.');
 				document.querySelector('#email').focus();
 				document.querySelector('#email').classList.add('error');
-	            return false; 
+	            return false;
+				} else {
+				document.querySelector('#email').classList.remove('error');	 
 	        }
 	        if (!userID) {
 	            showError('아이디가 없습니다.');
