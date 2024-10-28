@@ -84,11 +84,13 @@
 			SUBSTR(userID, 1, 2) || LPAD('*', LENGTH(userID) - 2, '*') AS userID
 		FROM SEMI.MEMBERSHIP
 			WHERE email = #{email}
+				AND ISUSE = 1
 	</select>
 	
 	<select id="findPW" parameterType="String" resultType="Long">
 		SELECT idx FROM SEMI.MEMBERSHIP
 		WHERE email = #{email} AND userID = #{userID}
+			AND ISUSE = 1
 	</select>
 	
 	<update id="updatePW" parameterType="com.example.demo.vo.MemberShipVO">
