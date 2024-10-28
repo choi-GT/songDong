@@ -52,8 +52,10 @@ document.getElementById('toggleClosedStoresBtn').addEventListener('click', () =>
 
 // 페이지 로드 시 초기화
 window.onload = function() {
-    // 추가 함수 (필요시 여기 추가)
-};
-
-
+	    // 인풋에 URL에서 받은 값 설정
+	    const initialQuery = document.getElementById("storeQuery").value;
+	    if (initialQuery) {
+	        filterStores(); // 초기 값으로 필터링 수행
+	    }
+	};
 
