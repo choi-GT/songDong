@@ -62,15 +62,6 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 핸드폰 중복 체크
-	 * @param phoneNumber
-	 * @return
-	 */
-	public int checkPhone(String phoneNumber) {
-		return session.selectOne("member.checkPhone", phoneNumber);
-	}
-	
-	/**
 	 * email 중복 체크
 	 * @param userID
 	 * @return
