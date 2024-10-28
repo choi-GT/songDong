@@ -5,8 +5,11 @@ body {
   padding: 0;
 }
 /* Nav Bar 스타일 */
-.menu1, .menu2, .menu3{
+.menu1, .menu2{
 	cursor: pointer;
+}
+.menu1:hover, .menu2:hover{
+	filter: brightness(30%);
 }
 .navbar {
   display: flex;
@@ -163,17 +166,16 @@ button.dropbtn{
 	border: none;
 	
 }
-.menu3{
-	display: none;
-}
+
 /*인덱스화면 검색창 즐겨찾기버튼 css*/
 .fabu{
 	border: 2px solid rgb(91,172,140);;
 	font-weight: 700;
 	position:relative;
-	left: 133px;
-	
-	
+	left: 125px;
+}
+.fabu:hover{
+	background-color: rgb(91,132,150);
 }
 @media (max-width: 767px) {
   .navbar {
