@@ -83,6 +83,18 @@
 		color: red;
 		transition: background 0.5s ease-in-out;
 	}
+	
+	input:focus {
+		outline: 2px solid mediumseagreen;
+	    border-bottom: 2px solid #fff;
+		border-radius: 5px;
+	}
+	input.error {
+		outline: 2px solid red;
+		color: red;
+  		border-bottom: 2px solid #fff;
+  		border-radius: 5px;
+    }
 		  
 			   	  
 </style>
@@ -104,11 +116,9 @@
 			<input type="password" id="password2" name="password2" placeholder="비밀번호를 입력하세요." value="" />
 		</div>
 		
-		<!--<button type="button" id="btnDrop">탈퇴</button>-->
-		
 		<div class="button-container">
-		<button type="button" id="btnDrop">탈 퇴</button>
-		<button type="button" id="btnBack" onclick="location.href='/' ">취 소</button>
+			<button type="button" id="btnDrop">탈 퇴</button>
+			<button type="button" id="btnBack" onclick="location.href='/' ">취 소</button>
 		</div>
 		
 	</form>
@@ -120,9 +130,15 @@
 			const userID = document.querySelector('#userID').value?.trim();
 			const password = document.querySelector('#password').value?.trim();
 			const password2 = document.querySelector('#password2').value?.trim();
+			
+			document.querySelectorAll('input').forEach(input => {
+							input.classList.remove('error');
+			})
+			
 			if (password !== '' && password2 !== '' && password !== password2) {
 			alert('비밀번호와 비밀번호 확인 란이 다릅니다.');
 			document.querySelector('#password').focus(); // 비밀번호 칸으로 포커스 이동
+			document.querySelector('#password').classList.add('error');
 			return false;
 			}
 			if (confirm("정말로 회원 탈퇴를 하시겠습니까?")){
