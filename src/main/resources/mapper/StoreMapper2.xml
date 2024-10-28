@@ -39,6 +39,12 @@
     ORDER BY storeCount DESC, storeName ASC
     </select>
     
+    <select id="favoriteExist" resultType="int" parameterType="java.util.HashMap">
+    	SELECT COUNT(*) AS CNT FROM SEMI.FAVORITE_STORES
+    	WHERE STORE_NAME = #{storeName}
+    	AND USERIDX = #{userIDX}
+    </select>
+    
     
     
 </mapper>

@@ -27,7 +27,7 @@ function initMap() {
     }
 }
 
-async function searchStores() {
+function searchStores() {
     const query = document.getElementById("storeQuery").value.trim();
     const searchResults = document.getElementById("searchResults");
     searchResults.innerHTML = ""; // 이전 검색 결과 초기화
@@ -37,24 +37,24 @@ async function searchStores() {
         return;
     }
 
-    try {
-        const response = await fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(query)}`, {
-            headers: {
-                Authorization: `KakaoAK ${API_KEY}`,
-            },
-        });
+    fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(query)}`, {
+        headers: {
+            Authorization: `KakaoAK ${API_KEY}`,
+        },
+    })
+    .then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-
+        return response.json();
+    })
+    .then((data) => {
         if (!data.documents || data.documents.length === 0) {
             alert("검색 결과가 없습니다.");
             return;
         }
 
-        const favorites = await fetchFavorites(); // 현재 사용자의 즐겨찾기 가져오기
-        const favoriteStoreIds = favorites.map(store => store.storeName);
+        const storeNameFromUrl = new URLSearchParams(window.location.search).get('storeName');
         
         data.documents.forEach((store) => {
             if (store.address_name.includes("성동구")) {
@@ -69,40 +69,50 @@ async function searchStores() {
                 };
 
                 searchResults.appendChild(li);
-
-                // 이미 즐겨찾기에 추가된 가게라면 비활성화
-                if (favoriteStoreIds.includes(store.place_name)) {
-                    li.style.textDecoration = "line-through"; // 이미 추가된 가게 표시
+                
+                // URL에서 가져온 가게 이름과 일치하는 경우 자동으로 클릭 효과 적용
+                if (store.place_name === decodeURIComponent(storeNameFromUrl)) {
+                    li.click(); // 자동으로 클릭한 것처럼 실행
                 }
             }
         });
-    } catch (error) {
+
+        if (searchResults.childNodes.length === 0) {
+            alert("성동구에 해당하는 검색 결과가 없습니다.");
+        }
+    })
+    .catch((error) => {
         console.error("Error:", error);
         alert("가게 검색에 실패했습니다: " + error.message);
-    }
+    });
 }
 
 // 주소로 위치 표시
 function showLocation(address, placeUrl) {
     const geocoder = new kakao.maps.services.Geocoder();
+
     geocoder.addressSearch(address, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
             const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             map.setCenter(coords); // 지도 중심을 결과 좌표로 설정
+
             // 작은 마커 이미지 URL
             const imageSrc = 'https://cdn-icons-png.flaticon.com/512/148/148836.png',
                 imageSize = new kakao.maps.Size(30, 30),  // 마커 크기 조정
                 imageOption = { offset: new kakao.maps.Point(15, 30) };
+
             const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
             const marker = new kakao.maps.Marker({
                 map: map,
                 position: coords,
                 image: markerImage,
             });
+
             // 마커 클릭 시 링크로 이동
             kakao.maps.event.addListener(marker, 'click', function() {
                 window.open(placeUrl, '_blank'); // 새 창에서 링크 열기
             });
+
             const infowindow = new kakao.maps.InfoWindow({
                 content: `<div style="width:150px;text-align:center;padding:6px 0;">${address}</div>`,
             });
@@ -114,51 +124,48 @@ function showLocation(address, placeUrl) {
 // 즐겨찾기 추가
 async function addFavorite() {
     if (selectedStore) {
-        const favorites = await fetchFavorites(); // 현재 사용자의 즐겨찾기 가져오기
-        const favoriteStoreIds = favorites.map(store => store.storeName);
-
-        if (!favoriteStoreIds.includes(selectedStore)) {
-            await saveFavoriteToDB(selectedStore); // DB에 저장
-            alert(`${selectedStore} 가 즐겨찾기 목록에 추가되었습니다.`);
+        const normalizedStoreName = selectedStore.trim().toLowerCase();
+        
+        // 새로운 가게가 저장된 경우 알림 추가
+        const isNewFavorite = await saveFavoriteToDB(normalizedStoreName);
+        if (isNewFavorite) {
             updateFavoriteList();
+            alert(`${selectedStore} 가 즐겨찾기 목록에 추가되었습니다.`);
         } else {
             alert(`${selectedStore} 는 이미 즐겨찾기 목록에 있습니다.`);
         }
     } else {
-        alert("가게를 선택하세요.");
-    }
-}
-
-// 현재 사용자의 즐겨찾기 가져오기
-async function fetchFavorites() {
-    try {
-        const response = await fetch(`/api/favorite`);
-        if (!response.ok) {
-            throw new Error('서버에서 데이터를 가져오는 데 실패했습니다.');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("즐겨찾기 가져오기 오류:", error);
-        alert("즐겨찾기 목록을 가져오는 데 실패했습니다.");
-        return [];
+        alert("가게를 선택하세요."); // 가게가 선택되지 않은 경우
     }
 }
 
 // DB에 즐겨찾기 저장
 async function saveFavoriteToDB(storeName) {
     try {
-        await fetch('/api/favorites', {
+        const response = await fetch('/api/favorites', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'text/plain',
             },
-            body: JSON.stringify({ storeName }), // storeName만 JSON으로 전송
+            body: storeName
         });
+
+        // 응답 상태를 로그로 확인
+        if (!response.ok) {
+            const errorMsg = await response.text(); // 에러 메시지 확인
+            console.error(`HTTP 오류: ${response.status} - ${errorMsg}`);
+            alert("즐겨찾기 저장에 실패했습니다.");
+            return false; // 실패 시 false 반환
+        }
+        return true; // 성공 시 true 반환
     } catch (error) {
         console.error("DB 저장 실패:", error);
         alert("즐겨찾기 저장에 실패했습니다.");
+        return false; // 예외 발생 시 false 반환
     }
 }
+
+
 
 // 즐겨찾기 목록 업데이트
 async function updateFavoriteList() {
@@ -166,15 +173,21 @@ async function updateFavoriteList() {
     favoriteList.innerHTML = "";
 
     try {
-        const favorites = await fetchFavorites();
+        const response = await fetch(`/api/favorite`);
+        if (!response.ok) {
+            throw new Error('서버에서 데이터를 가져오는 데 실패했습니다.');
+        }
+        const favorites = await response.json();
+
         favorites.forEach((store) => {
             const li = document.createElement("li");
             li.textContent = store.storeName; // storeName 프로퍼티에 맞게 수정
             
+            // 가게 이름 클릭 시 검색 및 마커 표시
             li.onclick = () => {
                 document.getElementById("storeQuery").value = store.storeName; // 검색창에 가게 이름 설정
                 searchStores(); // 검색 수행
-
+                
                 // 검색 결과 중 해당 가게를 자동으로 클릭하는 효과
                 setTimeout(() => {
                     const searchResults = document.getElementById("searchResults").children;
@@ -184,7 +197,7 @@ async function updateFavoriteList() {
                             break; // 첫 번째 일치하는 가게만 클릭
                         }
                     }
-                }, 100); 
+                }, 100); // 약간의 지연을 주어 검색이 완료된 후 클릭하도록 함
             };
 
             const removeButton = document.createElement("span");
@@ -207,24 +220,13 @@ async function updateFavoriteList() {
 // 즐겨찾기 제거
 async function removeFavorite(storeName) {
     try {
-        const response = await fetch(`/api/favorite/delete`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ storeName }), // JSON 형식으로 storeName 전달
+        await fetch(`/api/favorites?storeName=${storeName}`, {
+            method: 'GET',
         });
-
-        if (response.ok) {
-            alert(`${storeName} 가 즐겨찾기 목록에서 삭제되었습니다.`);
-            updateFavoriteList(); // 목록 업데이트
-        } else {
-            const errorText = await response.text();
-            alert("삭제 오류: " + errorText);
-        }
+        alert(`${storeName} 가 즐겨찾기 목록에서 삭제되었습니다.`);
+        updateFavoriteList(); // 목록 업데이트
     } catch (error) {
         console.error("즐겨찾기 삭제 오류:", error);
         alert("즐겨찾기 삭제에 실패했습니다.");
     }
 }
-
