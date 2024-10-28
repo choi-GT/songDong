@@ -35,6 +35,14 @@ public class MemberMapper {
 	public void insert(MemberShipVO memberShipVO) {
 		session.insert("member.insert", memberShipVO);
 	}
+		
+	/**
+	 * 회원탈퇴 id, pw 체크
+	 * @param userID
+	 */
+	public int checkUserIdPw(MemberShipVO memberShipVO) {
+	    return session.selectOne("member.checkUserIdPw", memberShipVO);
+	}
 	
 	/**
 	 * 회원 탈퇴 처리

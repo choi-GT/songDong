@@ -96,6 +96,17 @@
 		color: white;
 		transition: background 0.5s ease-in-out;
 	}
+	input:focus {
+		outline: 2px solid mediumseagreen;
+	    border-bottom: 2px solid #fff;
+		border-radius: 5px;
+	}
+	input.error {
+		outline: 2px solid red;
+		color: red;
+  		border-bottom: 2px solid #fff;
+  		border-radius: 5px;
+    }
 	
 </style>
 </head>
@@ -155,15 +166,24 @@
 
 	        const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
+			const phoneNumber_regex = /^(010)-?[0-9]{3,4}-?[0-9]{4}$/;
 	        // 오류 메시지를 표시할 요소
 	        const errorMessageDiv = document.querySelector('#error-message');
 	        errorMessageDiv.textContent = ''; // 이전 오류 메시지 초기화
 	        errorMessageDiv.style.display = 'none'; // 오류 메시지를 숨김
 
+			document.querySelectorAll('input').forEach(input => {
+				input.classList.remove('error');
+			})
+			
 	        // 유효성 검사
 	        if (!email_regex.test(email)) { 
 	            showError('이메일 형식을 확인하세요.');
-	            return false; 
+				document.querySelector('#email').focus();
+				document.querySelector('#email').classList.add('error');
+	            return false;
+				} else {
+				document.querySelector('#email').classList.remove('error');	 
 	        }
 	        if (!userID) {
 	            showError('아이디가 없습니다.');
@@ -171,23 +191,39 @@
 	        }
 	        if (username.length < 2) {
 	            showError('이름은 2글자 이상 입력하세요.');
+				document.querySelector('#username').focus();
+				document.querySelector('#username').classList.add('error');
 	            return false;
 	        }
+			if (!phoneNumber_regex.test(phoneNumber)){
+				showError('휴대폰번호 형식을 확인하세요.')
+				document.querySelector('#phoneNumber').focus();
+				document.querySelector('#phoneNumber').classList.add('error');
+	            return false; 
+			}
 	        if (password === '' && password2 !== '') {
 	            showError('비밀번호 변경을 원할 경우 비밀번호와 비밀번호 확인을 모두 입력하세요.');
+				document.querySelector('#password').focus();
+				document.querySelector('#password').classList.add('error');
 	            return false;
 	        }
 	        if (password !== '' && password2 !== '' && password !== password2) {
 	            showError('비밀번호와 비밀번호 확인 란이 다릅니다.');
+				document.querySelector('#password').focus();
+				document.querySelector('#password').classList.add('error');
 	            return false;
 	        }
 			// 비밀번호 유효성 검사
 			if (password.length < 6) {
 			    showError('비밀번호는 6자 이상이어야 합니다.');
+				document.querySelector('#password').focus();
+				document.querySelector('#password').classList.add('error');
 			    return false;
 			}
 			if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
 			    showError('비밀번호는 숫자와 문자의 조합이어야 합니다.');
+				document.querySelector('#password').focus();
+				document.querySelector('#password').classList.add('error');
 			    return false;
 			}
 			

@@ -56,23 +56,29 @@ public class MemberService implements CrudService<MemberShipVO> {
 		
 	}
 	/**
-	 * 회원 탈퇴
+	 * 회원 탈퇴 id, pw 체크
 	 * @param dropRequest
 	 * @return
 	 */
 	public boolean memberDrop(String userID, String password) {
-		int cnt = mapper.checkUserID(userID);
-		if (cnt == 0) {
-	        // 사용자 ID가 존재하지 않는 경우 예외 발생
-	        return false;
+	    // MemberShipVO 객체 생성 및 사용자 정보 설정
+	    MemberShipVO vo = new MemberShipVO();
+	    vo.setUserID(userID);
+	    vo.setPassword(password);
+
+	    // 사용자 ID와 비밀번호를 확인
+	    int cnt = mapper.checkUserIdPw(vo); // VO 객체를 파라미터로 전달
+
+	    if (cnt == 0) {
+	        // 사용자 ID가 존재하지 않거나 비밀번호가 일치하지 않는 경우
+	        return false; // 탈퇴 실패
 	    } 
-		MemberShipVO vo = new MemberShipVO();
-		vo.setUserID(userID);
-		vo.setPassword(password);
-		mapper.memberDrop(vo);
-	    return true;
+	    log.info(vo.toString());
+	    // 회원 탈퇴 처리
+	    mapper.memberDrop(vo); // 회원 탈퇴 쿼리 실행
+	    return true; // 탈퇴 성공
 	}
-	
+
 	/** 체크 폰 넘버
 	 * 
 	 */

@@ -30,7 +30,7 @@
 			IDX
 			, ISADMIN
 			, USERID
-			, USERNAME
+			 USERNAME
 			, EMAIL
 			, PHONENUMBER
 			, REGDATE
@@ -98,6 +98,13 @@
 			password = STANDARD_HASH(#{password}, 'SHA256')
 		WHERE idx = #{idx}
 	</update>
+	
+	<select id="checkUserIdPw" parameterType="com.example.demo.vo.MemberShipVO" resultType="int">
+		SELECT COUNT(*) AS CNT
+		FROM SEMI.MEMBERSHIP
+		WHERE userID = #{userID} 
+		AND password = STANDARD_HASH(#{password}, 'SHA256')
+	</select>
 	
 	<update id="memberDrop" parameterType="com.example.demo.vo.MemberShipVO">
 	    UPDATE SEMI.MEMBERSHIP SET 
