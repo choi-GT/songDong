@@ -30,7 +30,7 @@
 			IDX
 			, ISADMIN
 			, USERID
-			 USERNAME
+			, USERNAME
 			, EMAIL
 			, PHONENUMBER
 			, REGDATE
