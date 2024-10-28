@@ -56,13 +56,6 @@
 			AND ISUSE = 1
 	</select>
 	
-	<select id="checkPhone" parameterType="String" resultType="int">
-		SELECT COUNT(*) AS CNT
-		FROM SEMI.MEMBERSHIP
-		WHERE PHONENUMBER = #{phoneNumber}
-			AND ISUSE = 1
-	</select>
-	
 	<insert id="insert" parameterType="com.example.demo.vo.MemberShipVO">
 		INSERT INTO SEMI.MEMBERSHIP (
 			USERID

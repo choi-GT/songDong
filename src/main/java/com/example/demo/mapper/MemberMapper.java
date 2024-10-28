@@ -63,7 +63,7 @@ public class MemberMapper {
 	
 	/**
 	 * 핸드폰 중복 체크
-	 * @param phonnumber
+	 * @param phoneNumber
 	 * @return
 	 */
 	public int checkPhone(String phoneNumber) {

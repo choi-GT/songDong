@@ -35,7 +35,13 @@ public class MemberService implements CrudService<MemberShipVO> {
 	public MemberShipVO selectOne(MemberShipVO e) {
 		return mapper.selectOne(e);
 	}
-		
+	
+	/**
+	 * 입력받은 아이디와 비밀번호를 이용해 계정을 찾고 로그인
+	 * @param userID
+	 * @param password
+	 * @return
+	 */
 	public MemberShipVO selectOne(String userID, String password) {
 		MemberShipVO vo = new MemberShipVO();
 		vo.setUserID(userID);
@@ -78,14 +84,6 @@ public class MemberService implements CrudService<MemberShipVO> {
 	    mapper.memberDrop(vo); // 회원 탈퇴 쿼리 실행
 	    return true; // 탈퇴 성공
 	}
-
-	/** 체크 폰 넘버
-	 * 
-	 */
-	public boolean isPhoneAvailable(String phoneNumber) {
-        int count = mapper.checkPhone(phoneNumber);
-        return count == 0 ? true : false; // 이메일이 사용 가능한 경우 0 반환
-    }
 	
 	/** 체크 이메일
 	 * 
@@ -131,22 +129,10 @@ public class MemberService implements CrudService<MemberShipVO> {
 		return map;
 	}
 	
-	public HashMap<String, Object> checkPhoneNumber(String phoneNumber) {
-		int cnt = mapper.checkPhone(phoneNumber);
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("isExist", cnt == 0? false: true);
-		return map;
-	}
-	
 	public HashMap<String, Object> memberJoin(JoinRequest joinRequest) {
-		// 리턴(받는것 포함)할 객체가 특정하기 어려운 경우 hashmap을 사용한다
 		HashMap<String, Object> map = new HashMap<>();
-
-		// hashMap 리턴 시 아래의 내용으로 구성
-		// 가입 성공 여부 true, false
-		// 메시지 "성공", "실패", "무언가 사유로 인한 실패"
 		
-		// 1. 아이디 중복 체크
+		// 아이디 중복 체크
 		HashMap<String, Object> idMap = this.checkUserID(joinRequest.getUserID());
 		boolean idExist = (boolean)idMap.get("isExist");
 		
@@ -154,7 +140,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 			map.put("result", false);
 			return map;
 		}
-		// 2. 이메일 중복 체크
+		// 이메일 중복 체크
 		HashMap<String, Object> emailMap = this.checkEmail(joinRequest.getEmail());
 		boolean emailExist = (boolean)emailMap.get("isExist");
 		
@@ -162,9 +148,9 @@ public class MemberService implements CrudService<MemberShipVO> {
 			map.put("result", false);
 			return map;
 		}
-		// 3. 비밀번호
+		// 비밀번호
 		String pw = joinRequest.getPassword();
-		// 4. 사용자 이름
+		// 사용자 이름
 		String username = joinRequest.getUsername();
 		
 		MemberShipVO memberShipVO = MemberShipVO.builder()
@@ -183,6 +169,11 @@ public class MemberService implements CrudService<MemberShipVO> {
 		return map;
 	}
 	
+	/**
+	 * 이메일 입력받아 아이디 찾기
+	 * @param email
+	 * @return
+	 */
 	public HashMap<String, Object> findID(String email) {
 		HashMap<String, Object> map = new HashMap<>();
 		String userID = mapper.findID(email);
@@ -216,7 +207,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 		// 계정이 있으면 랜덤하게 문자열을 생성해서 idx값에 해당하는 비밀번호 변경
 		String randomPw = StringUtil.generateRandomString(6);
 		
-		// 기존에 memberVO가 있기때문에 별도로 생성 하지 않고 기존 변수명 활용
+		// 기존에 memberShipVO가 있기때문에 별도로 생성 하지 않고 기존 변수명 활용
 		memberShipVO = MemberShipVO.builder()
 				.password(randomPw)
 				.idx(idx).build();

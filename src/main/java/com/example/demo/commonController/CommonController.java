@@ -137,8 +137,6 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<?> joinProc2(@RequestBody JoinRequest joinRequest) {
 		log.info(joinRequest.toString());
-		// HashMap<String, Object> result = memberService.memberJoin(joinRequest);
-		// return ResponseEntity.ok(result);
 		return ResponseEntity.ok(memberService.memberJoin(joinRequest));
 	}
 
@@ -153,25 +151,6 @@ public class CommonController {
         mav.setViewName("common/myPage");
         mav.addObject("title", "마이 페이지");
         return mav;
-    }
-    
-    /**
-     * 폰넘버 중복 체크
-     * @param email
-     * @return
-     */
-//    @GetMapping("/checkPhone/{phoneNumber}")
-//    public ResponseEntity<Boolean> checkPhone(@PathVariable("phoneNumber") String phoneNumber) {
-//        boolean isAvailable = memberService.isPhoneAvailable(phoneNumber);
-//        return ResponseEntity.ok(isAvailable);
-//    }
-    
-    @GetMapping("/checkPhone/{phoneNumber}")
-    public ResponseEntity<?> checkPhone(
-    		@PathVariable(value = "phoneNumber") String phoneNumber
-    		) {
-        HashMap<String, Object> isAvailable = memberService.checkPhoneNumber(phoneNumber);
-        return ResponseEntity.ok(isAvailable);
     }
 
     /**
@@ -227,7 +206,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * 임시비밀번호 발급하기
+	 * 비밀번호 찾기에서 임시비밀번호 발급하기
 	 * @param changePwRequest
 	 * @return
 	 */

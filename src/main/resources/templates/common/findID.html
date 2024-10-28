@@ -120,6 +120,7 @@
 				.then((data) => {
 					console.log(data);
 					const {result, message} = data;
+					// 입력받은 이메일로 체크한 뒤 결과에 따라 아이디를 알려주거나 입력오류 메시지 표시
 					if (result == false) {
 						alert(message);
 						rightEmail.classList.remove('hide');
