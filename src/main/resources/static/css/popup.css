@@ -12,7 +12,11 @@
 .pop.active {
     opacity: 1;
 	z-index: 1001;
+
 }
+
+
+
 .immm {
     width: 70%;
     height: 100%;
@@ -56,6 +60,10 @@
     font-size: 15px;
     font-weight: 700;
 	cursor: pointer;
+	
+}
+.btn2:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .name {
     font-size: 25px;
