@@ -263,6 +263,9 @@ public class MemberService implements CrudService<MemberShipVO> {
 				
 		mapper.updateInfo(memberShipVO);
 		
+		// 회원정보 수정 후 변경된 세션값으로 진행하기
+		session.setAttribute("userInfo", memberShipVO);
+		
 		return true;
 	}
 	
