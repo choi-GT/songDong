@@ -1,15 +1,11 @@
 package com.example.demo.commonController;
 
 import com.example.demo.service.StoreService2;
-import com.example.demo.vo.FavoriteStoreVO;
 import com.example.demo.vo.MemberShipVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

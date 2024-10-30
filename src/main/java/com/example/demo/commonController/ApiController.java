@@ -39,7 +39,7 @@ public class ApiController {
 
 	@GetMapping("/getStoreCoords")
 	    public ResponseEntity<?> getStoreCoords(@RequestParam String sitewhladdr) {
-	        StoreVO store = storeService.getStoreByAddress(sitewhladdr); // 주소로 좌표 검색
+	        StoreInfoVO store = storeService.getStoreByAddress(sitewhladdr); // 주소로 좌표 검색
 
 	        if (store != null) {
 	            return ResponseEntity.ok(store); // 좌표를 포함한 데이터를 반환

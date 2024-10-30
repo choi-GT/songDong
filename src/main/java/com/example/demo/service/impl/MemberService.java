@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.MemberMapper;
 import com.example.demo.payload.request.ChangePwRequest;
-import com.example.demo.payload.request.DropRequest;
 import com.example.demo.payload.request.JoinRequest;
 import com.example.demo.service.CrudService;
 import com.example.demo.util.StringUtil;
 import com.example.demo.vo.MemberShipVO;
-import com.example.demo.vo.StoreVO;
+import com.example.demo.vo.StoreInfoVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -270,7 +269,7 @@ public class MemberService implements CrudService<MemberShipVO> {
 	}
 	
 	@Override
-	public List<StoreVO> selectAll() {
+	public List<StoreInfoVO> selectAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

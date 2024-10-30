@@ -3,14 +3,12 @@ package com.example.demo.service;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.StoreInfoMapper;
 import com.example.demo.mapper.StoreMapper;
-import com.example.demo.vo.StoreVO;
+import com.example.demo.vo.StoreInfoVO;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -31,7 +29,7 @@ public class StoreService {
 		return storeMapper.selectAll();
 	}
 
-	public StoreVO getStoreByAddress(String sitewhladdr) {
+	public StoreInfoVO getStoreByAddress(String sitewhladdr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

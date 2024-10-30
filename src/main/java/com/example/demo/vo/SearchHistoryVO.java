@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SerchHistoryVO {
+public class SearchHistoryVO {
 	
 	private Long idx; // PK
 	private int ranking; // 순위

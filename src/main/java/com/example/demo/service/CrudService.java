@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.vo.StoreVO;
+import com.example.demo.vo.StoreInfoVO;
 
 public interface CrudService<E> {
 
@@ -16,5 +16,5 @@ public interface CrudService<E> {
 	
 	void delete(E e);
 	
-	List<StoreVO> selectAll();
+	List<StoreInfoVO> selectAll();
 }

@@ -32,7 +32,7 @@ public class StoreInfoVO {
     private String sitewhladdr; // 지번주소
     private String rdnwhladdr; // 도로명우편번호
     private String bplcnm; // 사업장명
-    private String lastmodts; // 최종수정일자
+    private LocalDateTime lastmodts; // 최종수정일자
 
     private String updategbn; // 데이터갱신구분
     private String updatedt; // 데이터갱신일자
