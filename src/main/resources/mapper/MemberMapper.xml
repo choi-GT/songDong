@@ -53,7 +53,6 @@
 		SELECT COUNT(*) AS CNT
 		FROM SEMI.MEMBERSHIP
 		WHERE EMAIL = #{email}
-			AND ISUSE = 1
 	</select>
 	
 	<insert id="insert" parameterType="com.example.demo.vo.MemberShipVO">
